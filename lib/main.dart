@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nomem/pages/home.dart';
+import 'package:nomem/pages/accountslist.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const Home(),
           // '/addAccount': (context) => const AddAccount(),
-          // '/accountsList': (context) => const AccountsList(),
+          '/accountsList': (context) => const AccountsList(),
           // '/selectedAccount': (context) => const SelectedAccount()
         });
   }

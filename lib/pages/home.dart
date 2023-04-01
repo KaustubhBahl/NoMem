@@ -29,11 +29,12 @@ class Home extends StatelessWidget {
                     )),
                 const SizedBox(height: 12),
                 ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {Navigator.of(context).pushNamed('/accountsList');},
                     child: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 13, horizontal: 12),
                       child: Text('Manage an existing account',
                           style: TextStyle(color: Colors.black)),
+
                     )),
                 const SizedBox(height: 12),
                 ElevatedButton(
