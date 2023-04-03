@@ -455,6 +455,7 @@ char* module(char* k1,char* k2,char* k3,char* k4,char* k5)
     str2[len-3]=sum%26+'A';
     str2[len-4]=sum%15+'!';
 	return str2;
+	
 }
 char* module1(char* k1,char* k2,char* k3,char* k4,char* k5)
 {
