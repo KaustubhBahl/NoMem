@@ -59,45 +59,42 @@ class _AccountsListState extends State<AccountsList> {
         elevation: 3,
           shape: RoundedRectangleBorder(
             side: const BorderSide(
-              color: Color.fromARGB(255,255,251,254),
+              color: Color.fromRGBO(103, 80, 164, 0.05),
             ),
             borderRadius: BorderRadius.circular(15.0), //<-- SEE HERE
           ),
           // margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
-          child: Padding(
-              padding: const EdgeInsets.fromLTRB(0,8,8,8),
-              child: TextButton(
-                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => AccountDetailsPage(domain: account.domain, username: account.user, passwordLength: account.passwordLength, versionNumber: account.versionNumber)));},
-                // style: ButtonStyle(
-                //   // backgroundColor: MaterialStateProperty.all(
-                //   //     const Color.fromRGBO(255, 255, 255, 1)),
-                //   // shadowColor: MaterialStateProperty.all(
-                //   //     const Color.fromRGBO(255, 255, 255, 1)),
-                // ),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      ListTile(leading: Image(
-                        image: NetworkImage(i),
-                      ),
-                      title: Text(
-                          account.domain,
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.black,
-                          )
-                      ),
-                      // const SizedBox(height: 8.0),
-                      subtitle: Text(
-                          account.user,
-                          style: const TextStyle(
-                              fontSize: 12.0,
-                              color: Colors.black
-                          )
+          child: TextButton(
+            onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => AccountDetailsPage(domain: account.domain, username: account.user, passwordLength: account.passwordLength, versionNumber: account.versionNumber)));},
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                  const Color.fromRGBO(103, 80, 164, 0.05)),
+            //   // shadowColor: MaterialStateProperty.all(
+              //     const Color.fromRGBO(255, 255, 255, 1)),
+            ),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  ListTile(leading: Image(
+                    image: NetworkImage(i),
+                  ),
+                  title: Text(
+                      account.domain,
+                      style: const TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black,
                       )
-                      )]
-                ),
-              )
+                  ),
+                  // const SizedBox(height: 8.0),
+                  subtitle: Text(
+                      account.user,
+                      style: const TextStyle(
+                          fontSize: 12.0,
+                          color: Colors.black
+                      )
+                  )
+                  )]
+            ),
           )
       ),
     );
@@ -106,7 +103,7 @@ class _AccountsListState extends State<AccountsList> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-        backgroundColor: Color.fromRGBO(255, 251, 250, 1),
+        backgroundColor: const Color.fromRGBO(255, 251, 250, 1),
         appBar: AppBar(
         title: const Text('Accounts',
                         style: TextStyle(color: Colors.black),
@@ -122,12 +119,14 @@ class _AccountsListState extends State<AccountsList> {
           ),
         ],
         centerTitle: true,
-        backgroundColor: const Color.fromRGBO(232, 222, 248, 1),
+        backgroundColor: const Color.fromRGBO(231, 224, 236, 1),
         foregroundColor: const Color.fromRGBO(0, 0, 0, 1),
       ),
-      body: Column(
-        children: accounts.map(
-                (account) => accountTemplate(account, account.icon1)).toList(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: accounts.map(
+                  (account) => accountTemplate(account, account.icon1)).toList(),
+        ),
       )
     );
   }
