@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         title: 'NoMem',
         routes: {
           '/': (context) => const Home(),
-          '/addAccount': (context) => const Create_account_page(),
+          '/addAccount': (context) => const AddAccount(),
           '/accountsList': (context) => const AccountsList(),
         });
   }
