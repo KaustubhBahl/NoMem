@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nomem/pages/home.dart';
 import 'package:nomem/pages/accountslist.dart';
+import 'package:nomem/pages/create_account.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,22 +14,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'NoMem',
-        theme: ThemeData(
-            backgroundColor: const Color.fromRGBO(255, 251, 250, 1),
-            elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(22))),
-                    backgroundColor: MaterialStateProperty.all(
-                        const Color.fromRGBO(232, 222, 248, 1)),
-                    shadowColor: MaterialStateProperty.all(Colors.black),
-                    elevation: MaterialStateProperty.all(12)))),
         routes: {
           '/': (context) => const Home(),
-          // '/addAccount': (context) => const AddAccount(),
+          '/addAccount': (context) => const Create_account_page(),
           '/accountsList': (context) => const AccountsList(),
-          // '/selectedAccount': (context) => const SelectedAccount()
         });
   }
 }

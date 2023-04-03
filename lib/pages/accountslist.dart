@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:nomem/pages/account_details.dart';
 
 class Account {
-  late String domain;
-  late String user;
-  late String icon1 = 'https://img.icons8.com/color/256/test-account.png';
-  Account({required String domain,required String user, required String icon1}){
-    this.domain = domain;
-    this.user = user;
-    this.icon1 = icon1;
-  }
+  final String domain;
+  final String user;
+  final int passwordLength;
+  final int versionNumber;
+  String icon1 = 'https://img.icons8.com/color/256/test-account.png';
+
+  Account({
+    Key? key,
+    required this.domain,
+    required this.user,
+    required this.passwordLength,
+    required this.versionNumber,
+  });
+
+  Account.withIcon({
+    Key? key,
+    required this.domain,
+    required this.user,
+    required this.passwordLength,
+    required this.versionNumber,
+    required this.icon1
+  });
 }
 
 class AccountsList extends StatefulWidget{
@@ -20,9 +35,9 @@ class AccountsList extends StatefulWidget{
 
 class _AccountsListState extends State<AccountsList> {
   List<Account> accounts = [
-    Account(domain: 'Facebook', user: 'billy@gmail.com', icon1: 'https://img.icons8.com/color/256/facebook-new.png'),
-    Account(domain: 'Google', user: 'billy@gmail.com', icon1: 'https://img.icons8.com/color/256/google-logo.png'),
-    Account(domain: 'SBI', user: 'billyjoel_951949', icon1: 'https://img.icons8.com/color/256/test-account.png'),
+    Account.withIcon(domain: 'Facebook', user: 'billy@gmail.com', passwordLength: 12, versionNumber: 1, icon1: 'https://img.icons8.com/color/256/facebook-new.png'),
+    Account.withIcon(domain: 'Google', user: 'billy@gmail.com', passwordLength: 16, versionNumber: 2, icon1: 'https://img.icons8.com/color/256/google-logo.png'),
+    Account.withIcon(domain: 'SBI', user: 'billyjoel_951949', passwordLength: 12, versionNumber: 34, icon1: 'https://img.icons8.com/color/256/test-account.png'),
   ];
 
   List<String> icons = [
@@ -51,28 +66,37 @@ class _AccountsListState extends State<AccountsList> {
           // margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
           child: Padding(
               padding: const EdgeInsets.fromLTRB(0,8,8,8),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    ListTile(leading: Image(
-                      image: NetworkImage(i),
-                    ),
-                    title: Text(
-                        account.domain,
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.black,
-                        )
-                    ),
-                    // const SizedBox(height: 8.0),
-                    subtitle: Text(
-                        account.user,
-                        style: const TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.black
-                        )
-                    )
-                    )]
+              child: TextButton(
+                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => AccountDetailsPage(domain: account.domain, username: account.user, passwordLength: account.passwordLength, versionNumber: account.versionNumber)));},
+                // style: ButtonStyle(
+                //   // backgroundColor: MaterialStateProperty.all(
+                //   //     const Color.fromRGBO(255, 255, 255, 1)),
+                //   // shadowColor: MaterialStateProperty.all(
+                //   //     const Color.fromRGBO(255, 255, 255, 1)),
+                // ),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      ListTile(leading: Image(
+                        image: NetworkImage(i),
+                      ),
+                      title: Text(
+                          account.domain,
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.black,
+                          )
+                      ),
+                      // const SizedBox(height: 8.0),
+                      subtitle: Text(
+                          account.user,
+                          style: const TextStyle(
+                              fontSize: 12.0,
+                              color: Colors.black
+                          )
+                      )
+                      )]
+                ),
               )
           )
       ),
@@ -82,7 +106,8 @@ class _AccountsListState extends State<AccountsList> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(
+        backgroundColor: Color.fromRGBO(255, 251, 250, 1),
+        appBar: AppBar(
         title: const Text('Accounts',
                         style: TextStyle(color: Colors.black),
                       ),
@@ -97,7 +122,8 @@ class _AccountsListState extends State<AccountsList> {
           ),
         ],
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 231,224,236),
+        backgroundColor: const Color.fromRGBO(232, 222, 248, 1),
+        foregroundColor: const Color.fromRGBO(0, 0, 0, 1),
       ),
       body: Column(
         children: accounts.map(

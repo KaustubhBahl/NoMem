@@ -1,35 +1,21 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(AccountDetails());
-
-class AccountDetails extends StatelessWidget {
-  const AccountDetails({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: AccountDetailsPage(websiteName: 'Facebook', username: 'billy@gmail.com', passwordLength: 12, versionNumber: 1),
-    );
-  }
-}
-
-
 class AccountDetailsPage extends StatefulWidget {
-  final String websiteName;
+  final String domain;
   final String username;
   final int passwordLength;
   final int versionNumber;
 
   const AccountDetailsPage({
     Key? key,
-    required this.websiteName,
+    required this.domain,
     required this.username,
     required this.passwordLength,
     required this.versionNumber,
   }) : super(key: key);
 
   @override
-  _AccountDetailsPageState createState() => _AccountDetailsPageState();
+  State<AccountDetailsPage> createState() => _AccountDetailsPageState();
 }
 
 class _AccountDetailsPageState extends State<AccountDetailsPage> {
@@ -41,7 +27,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
     return Scaffold(
       backgroundColor: Color.fromRGBO(255, 251, 250, 1),
       appBar: AppBar(
-        backgroundColor: Color(0xFFFFFBFE),
+        backgroundColor: Color.fromRGBO(232, 222, 248, 1),
         centerTitle: true,
         title: Text(
             'Account Details',
@@ -65,8 +51,8 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               children: [
                 Expanded(
                   child: _buildCard(
-                    title: 'Website/App Name',
-                    value: widget.websiteName,
+                    title: 'Domain name',
+                    value: widget.domain,
                   ),
                 ),
                 SizedBox(width: 16),
@@ -116,7 +102,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
             SizedBox(height: 16),
             Text(
               'Your secret personal key that is used to \n'
-                  'generate all your password',
+                  'generate all your passwords',
               style: TextStyle(
                 fontSize: 12,
                 color: Color(0xFF938F99),
@@ -152,7 +138,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               SizedBox(height: 16),
             ],
             // Spacer(),
-            SizedBox(height: 185),
+            SizedBox(height: 80),
             Row(
               children: [
                 Expanded(
@@ -160,7 +146,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                     onPressed: () {
                       // TODO: implement update password functionality
                     },
-                    child: Text('Update Password'),
+                    child: Text('Update Password',style: TextStyle(fontSize: 12)),
                     style: ElevatedButton.styleFrom(
                       primary: Color(0xFF3B3B3B),
                       shape: RoundedRectangleBorder(
@@ -175,7 +161,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                     onPressed: () {
                       // TODO: implement delete account functionality
                     },
-                    child: Text('Delete Account'),
+                    child: Text('Delete Account',style: TextStyle(fontSize: 12)),
                     style: ElevatedButton.styleFrom(
                       primary: Color(0xFFDC362E),
                       shape: RoundedRectangleBorder(
@@ -209,14 +195,14 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               title,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
+                fontSize: 12,
               ),
             ),
             SizedBox(height: 8),
             Text(
               value,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: 12,
               ),
             ),
           ],
