@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:nomem/pages/account_details.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class Account {
   final String domain;
@@ -34,17 +38,21 @@ class AccountsList extends StatefulWidget{
 }
 
 class _AccountsListState extends State<AccountsList> {
-  List<Account> accounts = [
-    Account.withIcon(domain: 'Facebook', user: 'billy@gmail.com', passwordLength: 12, versionNumber: 1, icon1: 'https://img.icons8.com/color/256/facebook-new.png'),
-    Account.withIcon(domain: 'Google', user: 'billy@gmail.com', passwordLength: 16, versionNumber: 2, icon1: 'https://img.icons8.com/color/256/google-logo.png'),
-    Account.withIcon(domain: 'SBI', user: 'billyjoel_951949', passwordLength: 12, versionNumber: 34, icon1: 'https://img.icons8.com/color/256/test-account.png'),
-  ];
-
-  List<String> icons = [
-    'https://img.icons8.com/color/256/facebook-new.png',
-    'https://img.icons8.com/color/256/google-logo.png',
-  ];
-
+  Future<List<Account>> fetchAccounts() async {
+    List<Account> accounts = [];
+    final directory = await getApplicationDocumentsDirectory();
+    final db = File('${directory.path}/db.nomem');
+    final contents = await db.readAsLines();
+    int i = 0;
+    while(i<contents.length) {
+      accounts.add(Account(domain: contents[i],
+          user: contents[i + 1],
+          passwordLength: int.parse(contents[i + 2]),
+          versionNumber: int.parse(contents[i + 3])));
+      i += 4;
+    }
+    return accounts;
+  }
   Widget accountTemplate(account, String i){
     return Container(
       margin: const EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 0),
@@ -65,7 +73,7 @@ class _AccountsListState extends State<AccountsList> {
           ),
           // margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
           child: TextButton(
-            onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => AccountDetailsPage(domain: account.domain, username: account.user, passwordLength: account.passwordLength, versionNumber: account.versionNumber)));},
+            onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => AccountDetailsPage(domain: account.domain, username: account.user, passwordLength: account.passwordLength, versionNumber: account.versionNumber))).then((_) => setState(() {}));},
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(
                   const Color.fromRGBO(103, 80, 164, 0.05)),
@@ -123,9 +131,27 @@ class _AccountsListState extends State<AccountsList> {
         foregroundColor: const Color.fromRGBO(0, 0, 0, 1),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: accounts.map(
-                  (account) => accountTemplate(account, account.icon1)).toList(),
+        child: SizedBox(
+          child: Column(
+            children: [
+              FutureBuilder(
+                  future: fetchAccounts(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data == null ? 0 : snapshot.data.length,
+                      itemBuilder: (BuildContext context, int idx) {
+                        if (snapshot.data != null) {
+                          return accountTemplate(snapshot.data[idx], snapshot
+                              .data[idx].icon1);
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      },
+                    );
+                  })
+            ],
+          ),
         ),
       )
     );

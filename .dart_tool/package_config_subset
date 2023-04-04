@@ -42,6 +42,10 @@ flutter_lints
 2.17
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-2.0.1/
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-2.0.1/lib/
+fluttertoast
+2.12
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/fluttertoast-8.2.1/
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/fluttertoast-8.2.1/lib/
 js
 2.16
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/js-0.6.5/
@@ -158,4 +162,8 @@ flutter_test
 2.17
 file:///C:/src/flutter/packages/flutter_test/
 file:///C:/src/flutter/packages/flutter_test/lib/
+flutter_web_plugins
+2.17
+file:///C:/src/flutter/packages/flutter_web_plugins/
+file:///C:/src/flutter/packages/flutter_web_plugins/lib/
 2

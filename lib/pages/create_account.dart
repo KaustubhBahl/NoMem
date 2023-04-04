@@ -178,8 +178,9 @@ class AddAccountState extends State<AddAccount> {
                     onPressed: () async {
                       final directory = await getApplicationDocumentsDirectory();
                       final file = File('${directory.path}/db.nomem');
-                      final data = "$domainController.text\n $usernameController.text\n $passwordLengthController.text\n $versionNumberController.text\n";
-                      await file.writeAsString(data);
+                      final details = "${domainController.text}\n${usernameController.text}\n${passwordLengthController.text}\n${versionNumberController.text}\n";
+                      await file.writeAsString(details,mode:FileMode.append);
+                      final data = '$details${userKeyController.text}\n';
                       var bytes = utf8.encode(data); // data being hashed
                       var digest = sha512.convert(bytes);
                       var digesthex = '$digest';
