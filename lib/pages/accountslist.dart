@@ -155,6 +155,7 @@ class AccountsList extends StatefulWidget{
 }
 
 class _AccountsListState extends State<AccountsList> {
+
   List<Account> accounts = [
     Account.withIcon(domain: 'Facebook', user: 'billy@gmail.com', passwordLength: 12, versionNumber: 1, icon1: 'https://img.icons8.com/color/256/facebook-new.png'),
     Account.withIcon(domain: 'Google', user: 'billy@gmail.com', passwordLength: 16, versionNumber: 2, icon1: 'https://img.icons8.com/color/256/google-logo.png'),
@@ -213,7 +214,7 @@ class _AccountsListState extends State<AccountsList> {
       ),
     );
   }
-
+  bool click = true;
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -234,8 +235,12 @@ class _AccountsListState extends State<AccountsList> {
             },
           ),
           IconButton(
-            icon : const Icon(Icons.sort_by_alpha,color: Colors.black,),
-            onPressed: (){},
+            onPressed: (){
+              setState(() {
+                click = !click;
+              });
+            },
+            icon : Icon((click = true) ? Icons.sort_by_alpha : Icons.sort,color: Colors.black),
           ),
         ],
         centerTitle: true,
