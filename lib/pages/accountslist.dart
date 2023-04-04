@@ -130,30 +130,22 @@ class _AccountsListState extends State<AccountsList> {
         backgroundColor: const Color.fromRGBO(231, 224, 236, 1),
         foregroundColor: const Color.fromRGBO(0, 0, 0, 1),
       ),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          child: Column(
-            children: [
-              FutureBuilder(
-                  future: fetchAccounts(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: snapshot.data == null ? 0 : snapshot.data.length,
-                      itemBuilder: (BuildContext context, int idx) {
-                        if (snapshot.data != null) {
-                          return accountTemplate(snapshot.data[idx], snapshot
-                              .data[idx].icon1);
-                        } else {
-                          return const SizedBox.shrink();
-                        }
-                      },
-                    );
-                  })
-            ],
-          ),
-        ),
-      )
+      body: FutureBuilder(
+          future: fetchAccounts(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: snapshot.data == null ? 0 : snapshot.data.length,
+              itemBuilder: (BuildContext context, int idx) {
+                if (snapshot.data != null) {
+                  return accountTemplate(snapshot.data[idx], snapshot
+                      .data[idx].icon1);
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            );
+          })
     );
   }
 }
