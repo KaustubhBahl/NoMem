@@ -56,6 +56,15 @@ class AddAccountState extends State<AddAccount> {
                         ),
                         controller: domainController)
                 ),
+                // const SizedBox(height: 10),
+                Text(
+                  "e.g. 'Facebook', 'Twitter' ,etc. No need to enter complete URL.",
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Color(0xFF938F99),
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
                 const SizedBox(height: 16),
                 Padding(
                     padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -73,6 +82,14 @@ class AddAccountState extends State<AddAccount> {
                           // hintStyle: const TextStyle(fontStyle:FontStyle.italic ),
                         ),
                         controller: usernameController)),
+                Text(
+                  "The unique login ID for your account.",
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Color(0xFF938F99),
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
                 const SizedBox(height: 16),
                 Padding(
                     padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -91,13 +108,21 @@ class AddAccountState extends State<AddAccount> {
                           // hintStyle: const TextStyle(fontStyle:FontStyle.italic ),
                         ), controller: versionNumberController)
                 ),
+                Text(
+                  "The version number of current password. You \n can update this later to update the password.",
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Color(0xFF938F99),
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
                 const SizedBox(height: 16),
                 Padding(
                     padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                     child: TextFormField(
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          labelText: "Length",
+                          labelText: "Password Length",
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                           border: OutlineInputBorder(
                             borderSide: const BorderSide(
@@ -108,6 +133,14 @@ class AddAccountState extends State<AddAccount> {
                           hintText: "eg.16 , the length of the password",
                           // hintStyle: const TextStyle(fontStyle:FontStyle.italic ),
                         ), controller: passwordLengthController)
+                ),
+                Text(
+                  "The length of the password",
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Color(0xFF938F99),
+                  ),
+                  textAlign: TextAlign.justify,
                 ),
                 const SizedBox(height: 16),
                 Padding(
@@ -129,9 +162,18 @@ class AddAccountState extends State<AddAccount> {
                         ),
                         controller: userKeyController
                     )),
-                const SizedBox(height: 16),
+                Text(
+                  'Your secret personal key that is used to \n'
+                      'generate all your passwords',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color(0xFF938F99),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
                 SizedBox(
-                  width: 150,
+                  width: 165,
                   child: ElevatedButton(
                     onPressed: () async {
                       final directory = await getApplicationDocumentsDirectory();
@@ -167,7 +209,18 @@ class AddAccountState extends State<AddAccount> {
                         },
                       );
                     },
-                    child: Text('Generate Password'),
+                    child: Text(
+                      'Generate Password',
+                      style: TextStyle(
+                        color: Color(0xFF4A4458),
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Color.fromRGBO(232, 222, 248, 1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                    ),
                   ),
                 ),
               ]),
