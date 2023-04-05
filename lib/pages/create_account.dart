@@ -135,12 +135,12 @@ class AddAccountState extends State<AddAccount> {
                           },
                           controller: versionNumberController)),
                   Text(
-                    "The version number of current password. You \n can update this later to update the password.",
+                    "The version number of current password. You can update this later to update the password.",
                     style: TextStyle(
                       fontSize: 11,
                       color: Color(0xFF938F99),
                     ),
-                    textAlign: TextAlign.justify,
+                    textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
                   Padding(
@@ -207,7 +207,7 @@ class AddAccountState extends State<AddAccount> {
                   ),
                   const SizedBox(height: 24),
                   SizedBox(
-                    width: 165,
+                    width: 180,
                     child: ElevatedButton(
                       onPressed: () async {
                         FocusScope.of(context).requestFocus(FocusNode());
@@ -319,6 +319,7 @@ class AddAccountState extends State<AddAccount> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 20),
                 ]),
           ),
         ),
