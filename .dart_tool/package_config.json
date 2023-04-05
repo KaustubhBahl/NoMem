@@ -87,7 +87,7 @@
     },
     {
       "name": "fluttertoast",
-      "rootUri": "file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/fluttertoast-8.2.1",
+      "rootUri": "file:///C:/Users/hp/AppData/Local/Pub/Cache/hosted/pub.dev/fluttertoast-8.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -254,11 +254,7 @@
       "languageVersion": "2.17"
     }
   ],
-<<<<<<< HEAD
-  "generated": "2023-04-04T14:52:55.209387Z",
-=======
-  "generated": "2023-04-04T12:03:07.235013Z",
->>>>>>> 395397b1de7342fdcf943b1bec9c28719913b2cd
+  "generated": "2023-04-04T19:57:08.190593Z",
   "generator": "pub",
   "generatorVersion": "2.19.4"
 }

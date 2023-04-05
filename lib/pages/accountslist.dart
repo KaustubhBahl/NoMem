@@ -38,6 +38,25 @@ class CustomSearchDelegate extends SearchDelegate {
     Account.withIcon(domain: 'SBI', user: 'billyjoel_951949', passwordLength: 12, versionNumber: 34, icon1: 'https://img.icons8.com/color/256/test-account.png'),
   ];
 
+  // Future<List<Account>> fetchAccounts() async {
+  //   List<Account> accounts = [];
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   final db = File('${directory.path}/db.nomem');
+  //   final contents = await db.readAsLines();
+  //   int i = 0;
+  //   while(i<contents.length) {
+  //     accounts.add(Account(domain: contents[i],
+  //         user: contents[i + 1],
+  //         passwordLength: int.parse(contents[i + 2]),
+  //         versionNumber: int.parse(contents[i + 3])));
+  //     i += 4;
+  //   }
+  //   return accounts;
+  // }
+
+
+
+
 // first overwrite to
 // clear the search text
   @override
@@ -76,8 +95,50 @@ class CustomSearchDelegate extends SearchDelegate {
       itemCount: matchQuery.length,
       itemBuilder: (context, index) {
         var result = matchQuery[index];
-        return ListTile(
-          title: Text(result.domain),
+        return Container(
+          margin: const EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 0),
+          child: Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(
+                  color: Color.fromRGBO(103, 80, 164, 0.05),
+                ),
+                borderRadius: BorderRadius.circular(15.0), //<-- SEE HERE
+              ),
+              // margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+              child: TextButton(
+                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => AccountDetailsPage(domain: result.domain, username: result.user, passwordLength: result.passwordLength, versionNumber: result.versionNumber)));},
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      const Color.fromRGBO(103, 80, 164, 0.05)),
+                  //   // shadowColor: MaterialStateProperty.all(
+                  //     const Color.fromRGBO(255, 255, 255, 1)),
+                ),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      ListTile(leading: Image(
+                        image: NetworkImage(result.icon1),
+                      ),
+                          title: Text(
+                              result.domain,
+                              style: const TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.black,
+                              )
+                          ),
+                          // const SizedBox(height: 8.0),
+                          subtitle: Text(
+                              result.user,
+                              style: const TextStyle(
+                                  fontSize: 12.0,
+                                  color: Colors.black
+                              )
+                          )
+                      )]
+                ),
+              )
+          ),
         );
       },
     );
