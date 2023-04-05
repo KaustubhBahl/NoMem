@@ -27,26 +27,22 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
   int update = 0;
   final userKeyController = TextEditingController();
   bool validateUserKey = false;
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(255, 251, 250, 1),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(232, 222, 248, 1),
+        title: const Text(
+          "Account Details",
+          // style: TextStyle(textAlign: TextAlign.center),
+          // style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
-        title: Text(
-          'Account Details',
-          style: TextStyle(
-            color: Color(0xFF1C1B1F),
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.menu, color: Color(0xFF49454F)),
-          onPressed: () {
-            //Navigate to the menu page
-          },
-        ),
+        backgroundColor: const Color.fromRGBO(232, 222, 248, 1),
+        foregroundColor: const Color.fromRGBO(0, 0, 0, 1),
+        // shadowColor: const Color.fromRGBO(255, 255, 255, 1),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -93,12 +89,24 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               child: SizedBox(
                 width: 300,
                 child: TextField(
+                  obscureText: _obscureText,
                   controller: userKeyController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'User Key',
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     errorText: validateUserKey ? 'Please enter the user key' : null,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                    ),
                   ),
                 ),
               ),

@@ -5,6 +5,8 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 
+// final List<String> commonDomains = ['Google', 'Twitter', 'Facebook'];
+
 class AddAccount extends StatefulWidget {
   const AddAccount({super.key});
 
@@ -19,6 +21,8 @@ class AddAccountState extends State<AddAccount> {
   final versionNumberController = TextEditingController(text: '1');
   final userKeyController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool _obscureText = true;
+  String? selectedOption;
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +48,34 @@ class AddAccountState extends State<AddAccount> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                      child: TextFormField(
+                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                    child: Autocomplete<String>(
+                      optionsBuilder: (TextEditingValue textEditingValue) {
+                        // Use your own data source here to generate the autocomplete options
+                        return [
+                          'Google',
+                          'Facebook',
+                          'Twitter',
+                        ].where((option) => option.toLowerCase().startsWith(textEditingValue.text.toLowerCase())).toList();
+                      },
+                      onSelected: (String selectedOption) {
+                        setState(() {
+                          // Update the selected option when the user selects an option
+                          this.selectedOption = selectedOption;
+                        });
+                      },
+                      fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                        return TextFormField(
+                          controller: textEditingController,
+                          focusNode: focusNode,
+                          onChanged: (String value) {
+                            setState(() {
+                              // Update the selected option as the user types
+                              selectedOption = value;
+                            });
+                          },
                           decoration: InputDecoration(
-                            labelText: "Domain",
+                            labelText: 'Option',
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(
@@ -55,17 +83,43 @@ class AddAccountState extends State<AddAccount> {
                               ),
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            hintText: "Google",
-                            errorMaxLines: 2,
-                            // hintStyle: const TextStyle(fontStyle:FontStyle.italic ),
                           ),
-                          validator: (value) {
-                            if (value == '') {
-                              return 'Domain is a required field';
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Option is a required field';
                             }
                             return null;
                           },
-                          controller: domainController)),
+                          onFieldSubmitted: (_) => onFieldSubmitted(),
+                        );
+                      },
+                      optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
+                        // Build the dropdown options from the generated list of autocomplete options
+                        return Align(
+                          alignment: Alignment.topLeft,
+                          child: Material(
+                            elevation: 4.0,
+                            child: SizedBox(
+                              height: 200.0,
+                              child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                itemCount: options.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final String option = options.elementAt(index);
+                                  return ListTile(
+                                    title: Text(option),
+                                    onTap: () {
+                                      onSelected(option);
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                   // const SizedBox(height: 10),
                   Text(
                     "e.g. 'Facebook', 'Twitter' ,etc. No need to enter complete URL.",
@@ -182,10 +236,10 @@ class AddAccountState extends State<AddAccount> {
                   Padding(
                       padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                       child: TextFormField(
-                          obscureText: true,
+                          obscureText: _obscureText,
                           // obscuringCharacter: '*',
                           decoration: InputDecoration(
-                            labelText: "User key",
+                            labelText: "User Key",
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(
@@ -195,8 +249,20 @@ class AddAccountState extends State<AddAccount> {
                             ),
                             hintText: "eg. ab765418",
                             // hintStyle: const TextStyle(fontStyle:FontStyle.italic ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscureText ? Icons.visibility_off : Icons.visibility,
+                                color: Colors.grey,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscureText = !_obscureText;
+                                });
+                              },
+                            ),
                           ),
-                          controller: userKeyController)),
+                          controller: userKeyController)
+                  ),
                   Text(
                     'Your secret personal key that is used to generate all your passwords',
                     style: TextStyle(
