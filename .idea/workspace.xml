@@ -12,14 +12,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2270c96-b9ce-42ae-9071-3149db7dcc15" name="Changes" comment="fixing git repo">
-<<<<<<< HEAD
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/accountslist.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/accountslist.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
->>>>>>> 395397b1de7342fdcf943b1bec9c28719913b2cd
+    <list default="true" id="b2270c96-b9ce-42ae-9071-3149db7dcc15" name="Changes" comment="change in some flutter internal files">
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,9 +47,6 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
   <component name="ProjectId" id="2NbLjAVKirbP6Myzzc3cK0YtgNW" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -69,10 +61,10 @@
     <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="settings.editor.selected.configurable" value="dart.settings" />
+    <property name="settings.editor.selected.configurable" value="flutter.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
-  <component name="RunManager" selected="Flutter.main.dart">
+  <component name="RunManager" selected="Gradle.C:/Users/HP/StudioProjects/NoMem">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
       <method v="2" />
@@ -170,7 +162,28 @@
       <option name="project" value="LOCAL" />
       <updated>1680556259956</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="add update password, delete password, fetching account list">
+      <created>1680628732100</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1680628732100</updated>
+    </task>
+    <task id="LOCAL-00010" summary="validate form for create_account">
+      <created>1680641603315</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1680641603315</updated>
+    </task>
+    <task id="LOCAL-00011" summary="change in some flutter internal files">
+      <created>1680666796644</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1680666796644</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -195,6 +208,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit" />
@@ -203,6 +217,9 @@
     <MESSAGE value="fix theme and add icons images" />
     <MESSAGE value="add create password and view password" />
     <MESSAGE value="fixing git repo" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing git repo" />
+    <MESSAGE value="add update password, delete password, fetching account list" />
+    <MESSAGE value="validate form for create_account" />
+    <MESSAGE value="change in some flutter internal files" />
+    <option name="LAST_COMMIT_MESSAGE" value="change in some flutter internal files" />
   </component>
 </project>
