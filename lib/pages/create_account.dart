@@ -53,9 +53,16 @@ class AddAccountState extends State<AddAccount> {
                       optionsBuilder: (TextEditingValue textEditingValue) {
                         // Use your own data source here to generate the autocomplete options
                         return [
-                          'Google',
-                          'Facebook',
-                          'Twitter',
+                          "Google",
+                          "Facebook",
+                          "Twitter",
+                          "SBI",
+                          "Instagram",
+                          "LinkedIn",
+                          "Eduserver",
+                          "HDFC",
+                          "ICICI",
+                          "Aternos",
                         ].where((option) => option.toLowerCase().startsWith(textEditingValue.text.toLowerCase())).toList();
                       },
                       onSelected: (String selectedOption) {
@@ -75,8 +82,9 @@ class AddAccountState extends State<AddAccount> {
                             });
                           },
                           decoration: InputDecoration(
-                            labelText: 'Option',
+                            labelText: 'Domain',
                             floatingLabelBehavior: FloatingLabelBehavior.always,
+                            hintText: "Google",
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(
                                 color: Colors.black,
@@ -86,7 +94,7 @@ class AddAccountState extends State<AddAccount> {
                           ),
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
-                              return 'Option is a required field';
+                              return 'Domain is a required field';
                             }
                             return null;
                           },
@@ -101,6 +109,7 @@ class AddAccountState extends State<AddAccount> {
                             elevation: 4.0,
                             child: SizedBox(
                               height: 200.0,
+                              width: 293.0,
                               child: ListView.builder(
                                 padding: EdgeInsets.zero,
                                 itemCount: options.length,
@@ -281,7 +290,8 @@ class AddAccountState extends State<AddAccount> {
                           return;
                         }
 
-                        final domain = domainController.text.trim();
+                        if (selectedOption == null) {return;}
+                        final domain = selectedOption!.trim();
                         final username = usernameController.text.trim();
                         final passwordLength =
                             passwordLengthController.text.trim();
