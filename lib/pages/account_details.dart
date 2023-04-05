@@ -26,6 +26,7 @@ class AccountDetailsPage extends StatefulWidget {
 class _AccountDetailsPageState extends State<AccountDetailsPage> {
   int update = 0;
   final userKeyController = TextEditingController();
+  bool validateUserKey = false;
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +96,9 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                   controller: userKeyController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Enter User Key',
+                    labelText: 'User Key',
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    errorText: validateUserKey ? 'Please enter the user key' : null,
                   ),
                 ),
               ),
@@ -115,7 +118,11 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               width: 175.0,
               child: ElevatedButton(
                 onPressed: () {
-                  final data = "${widget.domain}\n${widget.username}\n${widget.passwordLength}\n${widget.versionNumber+update}\n${userKeyController.text}\n";
+                  if(userKeyController.text.trim().isEmpty) {
+                   setState(() {validateUserKey = true;});
+                   return;
+                  }
+                  final data = "${widget.domain}\n${widget.username}\n${widget.passwordLength}\n${widget.versionNumber+update}\n${userKeyController.text.trim()}\n";
                   var bytes = utf8.encode(data); // data being hashed
                   var digest = sha512.convert(bytes);
                   var digesthex = '$digest';
@@ -166,6 +173,10 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () async {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      setState(() {
+                        validateUserKey = false;
+                      });
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -192,11 +203,10 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                             widget.passwordLength &&
                                         int.parse(contents[i + 3]) ==
                                             widget.versionNumber + update) {
-                                      newDB.writeAsString(
+                                      await newDB.writeAsString(
                                           '${contents[i]}\n${contents[i + 1]}\n${contents[i + 2]}\n${int.parse(contents[i + 3]) + 1}\n',mode:FileMode.append);
-
                                     } else {
-                                      newDB.writeAsString(
+                                      await newDB.writeAsString(
                                           '${contents[i]}\n${contents[i + 1]}\n${contents[i + 2]}\n${contents[i + 3]}\n',mode:FileMode.append);
                                     }
                                     i += 4;
@@ -261,7 +271,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                   File('${directory.path}/db.nomem');
                                   final newDB =
                                   File('${directory.path}/db_new.nomem');
-                                  newDB.openWrite();
+                                  // newDB.openWrite();
                                   final contents = await oldDB.readAsLines();
                                   int i = 0;
                                   bool empty = true;
