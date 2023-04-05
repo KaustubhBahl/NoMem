@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:nomem/dbhelper.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:crypto/crypto.dart';
 import 'dart:io';
-import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nomem/passwordGen.dart';
 
 class AddAccount extends StatefulWidget {
   const AddAccount({super.key});
@@ -15,10 +15,20 @@ class AddAccount extends StatefulWidget {
 class AddAccountState extends State<AddAccount> {
   final domainController = TextEditingController();
   final usernameController = TextEditingController();
-  final passwordLengthController = TextEditingController(text: '12');
-  final versionNumberController = TextEditingController(text: '1');
+  final lengthController = TextEditingController(text: '12');
+  final versionController = TextEditingController(text: '1');
   final userKeyController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    domainController.dispose();
+    usernameController.dispose();
+    lengthController.dispose();
+    versionController.dispose();
+    userKeyController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +143,7 @@ class AddAccountState extends State<AddAccount> {
                             }
                             return null;
                           },
-                          controller: versionNumberController)),
+                          controller: versionController)),
                   Text(
                     "The version number of current password. You \n can update this later to update the password.",
                     style: TextStyle(
@@ -169,7 +179,7 @@ class AddAccountState extends State<AddAccount> {
                             }
                             return null;
                           },
-                          controller: passwordLengthController)),
+                          controller: lengthController)),
                   Text(
                     "The length of the password",
                     style: TextStyle(
@@ -209,7 +219,7 @@ class AddAccountState extends State<AddAccount> {
                   SizedBox(
                     width: 165,
                     child: ElevatedButton(
-                      onPressed: () async {
+                      onPressed: () {
                         FocusScope.of(context).requestFocus(FocusNode());
                         if (!(_formKey.currentState!.validate())) {
                           return;
@@ -217,45 +227,28 @@ class AddAccountState extends State<AddAccount> {
 
                         final domain = domainController.text.trim();
                         final username = usernameController.text.trim();
-                        final passwordLength =
-                            passwordLengthController.text.trim();
-                        final versionNumber =
-                            versionNumberController.text.trim();
+                        final length = lengthController.text.trim();
+                        final version = versionController.text.trim();
                         final userKey = userKeyController.text.trim();
 
-                        final directory =
-                            await getApplicationDocumentsDirectory();
-                        final db = File('${directory.path}/db.nomem');
-                        if (db.existsSync() == false) {
-                          db.create();
+                        if (DBHelper().createAccount(domain, username,
+                            int.parse(length), int.parse(version))) {
+                          userKeyController.clear();
+                          domainController.clear();
+                          usernameController.clear();
+                          lengthController.text = '12';
+                          versionController.text = '1';
                         } else {
-                          final contents = await db.readAsLines();
-                          var i = 0;
-                          while (i < contents.length) {
-                            if (contents[i] == domain &&
-                                contents[i + 1] == username) {
-                              Fluttertoast.showToast(
-                                  msg:
-                                      'Password for the account already exists',
-                                  toastLength: Toast.LENGTH_LONG,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.black,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0);
-                              return;
-                            }
-                            i += 4;
-                          }
+                          Fluttertoast.showToast(
+                              msg: 'Password for the account already exists',
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.black,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                          return;
                         }
-                        final details =
-                            "$domain\n$username\n$passwordLength\n$versionNumber\n";
-                        await db.writeAsString(details, mode: FileMode.append);
-                        userKeyController.clear();
-                        domainController.clear();
-                        usernameController.clear();
-                        passwordLengthController.text = '12';
-                        versionNumberController.text = '1';
 
                         if (userKey.isEmpty) {
                           Fluttertoast.showToast(
@@ -269,23 +262,13 @@ class AddAccountState extends State<AddAccount> {
                           return;
                         }
 
-                        final data =
-                            '$details${userKeyController.text.trim()}\n';
-                        var bytes = utf8.encode(data); // data being hashed
-                        var digest = sha512.convert(bytes);
-                        String digestHex = '$digest';
-                        var i = 0;
-                        var sum = 0;
-                        var len = int.parse(passwordLength);
-                        while (i < digestHex.length) {
-                          sum += digestHex[i].codeUnitAt(0);
-                          i++;
-                        }
-                        final password = digestHex.substring(0, len - 4) +
-                            String.fromCharCode(sum % 15 + '!'.codeUnitAt(0)) +
-                            String.fromCharCode(sum % 26 + 'A'.codeUnitAt(0)) +
-                            String.fromCharCode(sum % 26 + 'a'.codeUnitAt(0)) +
-                            String.fromCharCode(sum % 10 + '0'.codeUnitAt(0));
+                        String password = PasswordGen(
+                                domain: domain,
+                                username: username,
+                                length: length,
+                                version: version,
+                                userKey: userKey)
+                            .generatePassword();
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {

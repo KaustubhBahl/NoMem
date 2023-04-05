@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:nomem/pages/account_details.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:nomem/model/account.dart';
+import 'package:nomem/dbhelper.dart';
 
 class Account {
   final String domain;
