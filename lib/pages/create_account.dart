@@ -126,8 +126,9 @@ class AddAccountState extends State<AddAccount> {
                             // hintStyle: const TextStyle(fontStyle:FontStyle.italic ),
                           ),
                           validator: (value) {
-                            if (value == null || int.tryParse(value.trim()) ==
-                                null || int.parse(value.trim()) < 1) {
+                            if (value == null ||
+                                int.tryParse(value.trim()) == null ||
+                                int.parse(value.trim()) < 1) {
                               return 'Version number must be a positive number';
                             }
                             return null;
@@ -160,8 +161,9 @@ class AddAccountState extends State<AddAccount> {
                             // hintStyle: const TextStyle(fontStyle:FontStyle.italic ),
                           ),
                           validator: (value) {
-                            if (value == null || int.tryParse(value.trim()) ==
-                                null || int.parse(value.trim()) < 1 ||
+                            if (value == null ||
+                                int.tryParse(value.trim()) == null ||
+                                int.parse(value.trim()) < 1 ||
                                 int.parse(value.trim()) > 128) {
                               return 'Password length must be between 1 and 128';
                             }
@@ -215,43 +217,47 @@ class AddAccountState extends State<AddAccount> {
 
                         final domain = domainController.text.trim();
                         final username = usernameController.text.trim();
-                        final passwordLength = passwordLengthController.text
-                            .trim();
-                        final versionNumber = versionNumberController.text
-                            .trim();
+                        final passwordLength =
+                            passwordLengthController.text.trim();
+                        final versionNumber =
+                            versionNumberController.text.trim();
                         final userKey = userKeyController.text.trim();
 
                         final directory =
-                        await getApplicationDocumentsDirectory();
+                            await getApplicationDocumentsDirectory();
                         final db = File('${directory.path}/db.nomem');
-                        final contents = await db.readAsLines();
-                        var i = 0;
-                        while (i < contents.length) {
-                          if (contents[i] == domain &&
-                              contents[i + 1] == username) {
-                            Fluttertoast.showToast(
-                                msg: 'Password for the account already exists',
-                                toastLength: Toast.LENGTH_LONG,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.black,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
-                            return;
+                        if (db.existsSync() == false) {
+                          db.create();
+                        } else {
+                          final contents = await db.readAsLines();
+                          var i = 0;
+                          while (i < contents.length) {
+                            if (contents[i] == domain &&
+                                contents[i + 1] == username) {
+                              Fluttertoast.showToast(
+                                  msg:
+                                      'Password for the account already exists',
+                                  toastLength: Toast.LENGTH_LONG,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.black,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                              return;
+                            }
+                            i += 4;
                           }
-                          i += 4;
                         }
-
-                        final details = "$domain\n$username\n$passwordLength\n$versionNumber\n";
+                        final details =
+                            "$domain\n$username\n$passwordLength\n$versionNumber\n";
                         await db.writeAsString(details, mode: FileMode.append);
-
                         userKeyController.clear();
                         domainController.clear();
                         usernameController.clear();
                         passwordLengthController.text = '12';
                         versionNumberController.text = '1';
 
-                        if (userKey == '') {
+                        if (userKey.isEmpty) {
                           Fluttertoast.showToast(
                               msg: 'The account has been created.',
                               toastLength: Toast.LENGTH_LONG,
@@ -262,16 +268,13 @@ class AddAccountState extends State<AddAccount> {
                               fontSize: 16.0);
                           return;
                         }
-                        else {
-                          print('User key: $userKey');
-                        }
 
-                        final data = '$details${userKeyController.text
-                            .trim()}\n';
+                        final data =
+                            '$details${userKeyController.text.trim()}\n';
                         var bytes = utf8.encode(data); // data being hashed
                         var digest = sha512.convert(bytes);
                         String digestHex = '$digest';
-                        i = 0;
+                        var i = 0;
                         var sum = 0;
                         var len = int.parse(passwordLength);
                         while (i < digestHex.length) {
