@@ -75,7 +75,7 @@ class CustomSearchDelegate extends SearchDelegate {
                     children: <Widget>[
                       ListTile(
                           leading: Image(
-                            image: AssetImage('images/${result.icon}'),
+                            image: AssetImage('assets/images/${result.icon}'),
                           ),
                           title: Text(result.domain,
                               style: const TextStyle(
@@ -137,7 +137,7 @@ class CustomSearchDelegate extends SearchDelegate {
                     children: <Widget>[
                       ListTile(
                           leading: Image(
-                            image: AssetImage('images/${result.icon}'),
+                            image: AssetImage('assets/images/${result.icon}'),
                           ),
                           title: Text(result.domain,
                               style: const TextStyle(
@@ -164,29 +164,6 @@ class AccountsList extends StatefulWidget {
 }
 
 class _AccountsListState extends State<AccountsList> {
-  // Future<List<Account>> fetchAccounts() async {
-  //   List<Account> accounts = [];
-  //   final directory = await getApplicationDocumentsDirectory();
-  //   final db = File('${directory.path}/db.nomem');
-  //   final contents = await db.readAsLines();
-  //   int i = 0;
-  //   while (i < contents.length) {
-  //     accounts.add(Account(
-  //         domain: contents[i],
-  //         user: contents[i + 1],
-  //         passwordLength: int.parse(contents[i + 2]),
-  //         versionNumber: int.parse(contents[i + 3])));
-  //     i += 4;
-  //   }
-  //   if(click) {
-  //     if(ascendingSort) {
-  //       accounts.sort((a, b) => (a.domain.compareTo(b.domain)));
-  //     } else {
-  //       accounts.sort((a, b) => (b.domain.compareTo(a.domain)));
-  //     }
-  //   }
-  //   return accounts;
-  // }
 
   Widget accountTemplate(account) {
     return Container(
@@ -220,7 +197,7 @@ class _AccountsListState extends State<AccountsList> {
                 children: <Widget>[
                   ListTile(
                       leading: Image(
-                        image: AssetImage('images/${account.icon}'),
+                        image: AssetImage('assets/images/${account.icon}'),
                       ),
                       title: Text(account.domain,
                           style: const TextStyle(
@@ -228,7 +205,7 @@ class _AccountsListState extends State<AccountsList> {
                             color: Colors.black,
                           )),
                       // const SizedBox(height: 8.0),
-                      subtitle: Text(account.user,
+                      subtitle: Text(account.username,
                           style: const TextStyle(
                               fontSize: 12.0, color: Colors.black)))
                 ]),
