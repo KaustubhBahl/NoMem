@@ -1,43 +1,13 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:nomem/pages/account_details.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-
-class Account {
-  final String domain;
-  final String user;
-  final int passwordLength;
-  final int versionNumber;
-  String icon1 = 'https://img.icons8.com/color/256/test-account.png';
-
-  Account({
-    Key? key,
-    required this.domain,
-    required this.user,
-    required this.passwordLength,
-    required this.versionNumber,
-  });
-
-  Account.withIcon(
-      {Key? key,
-      required this.domain,
-      required this.user,
-      required this.passwordLength,
-      required this.versionNumber,
-      required this.icon1});
-}
+import 'package:nomem/model/account.dart';
+import 'package:nomem/dbhelper.dart';
+import 'package:hive/hive.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
-// Demo list to show querying
-//   List<Account> searchTerms = [
-//     Account.withIcon(domain: 'Facebook', user: 'billy@gmail.com', passwordLength: 12, versionNumber: 1, icon1: 'https://img.icons8.com/color/256/facebook-new.png'),
-//     Account.withIcon(domain: 'Google', user: 'billy@gmail.com', passwordLength: 16, versionNumber: 2, icon1: 'https://img.icons8.com/color/256/google-logo.png'),
-//     Account.withIcon(domain: 'SBI', user: 'billyjoel_951949', passwordLength: 12, versionNumber: 34, icon1: 'https://img.icons8.com/color/256/test-account.png'),
-//   ];
 
   final List<Account> accountsList;
-
   CustomSearchDelegate(this.accountsList);
 
 // first overwrite to
@@ -49,7 +19,7 @@ class CustomSearchDelegate extends SearchDelegate {
         onPressed: () {
           query = '';
         },
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
       ),
     ];
   }
@@ -61,7 +31,7 @@ class CustomSearchDelegate extends SearchDelegate {
       onPressed: () {
         close(context, null);
       },
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
     );
   }
 
@@ -71,7 +41,7 @@ class CustomSearchDelegate extends SearchDelegate {
     List<Account> matchQuery = [];
     for (var fruit in accountsList) {
       if (fruit.domain.toLowerCase().contains(query.toLowerCase()) ||
-          fruit.user.toLowerCase().contains(query.toLowerCase())) {
+          fruit.username.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(fruit);
       }
     }
@@ -79,9 +49,6 @@ class CustomSearchDelegate extends SearchDelegate {
       itemCount: matchQuery.length,
       itemBuilder: (context, index) {
         var result = matchQuery[index];
-        // return ListTile(
-        //   title: Text(result.domain),
-        // );
         return Container(
           margin: const EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 0),
           child: Card(
@@ -92,39 +59,32 @@ class CustomSearchDelegate extends SearchDelegate {
                 ),
                 borderRadius: BorderRadius.circular(15.0), //<-- SEE HERE
               ),
-              // margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
               child: TextButton(
                 onPressed: () {
                   close(context, null);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AccountDetailsPage(
-                              domain: result.domain,
-                              username: result.user,
-                              passwordLength: result.passwordLength,
-                              versionNumber: result.versionNumber)));
+                          builder: (context) =>
+                              AccountDetailsPage(account: result)));
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
                       const Color.fromRGBO(103, 80, 164, 0.05)),
-                  //   // shadowColor: MaterialStateProperty.all(
-                  //     const Color.fromRGBO(255, 255, 255, 1)),
                 ),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       ListTile(
                           leading: Image(
-                            image: NetworkImage(result.icon1),
+                            image: AssetImage('assets/images/${result.icon}'),
                           ),
                           title: Text(result.domain,
                               style: const TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.black,
                               )),
-                          // const SizedBox(height: 8.0),
-                          subtitle: Text(result.user,
+                          subtitle: Text(result.username,
                               style: const TextStyle(
                                   fontSize: 12.0, color: Colors.black)))
                     ]),
@@ -141,7 +101,7 @@ class CustomSearchDelegate extends SearchDelegate {
     List<Account> matchQuery = [];
     for (var fruit in accountsList) {
       if (fruit.domain.toLowerCase().contains(query.toLowerCase()) ||
-          fruit.user.toLowerCase().contains(query.toLowerCase())) {
+          fruit.username.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(fruit);
       }
     }
@@ -149,9 +109,6 @@ class CustomSearchDelegate extends SearchDelegate {
       itemCount: matchQuery.length,
       itemBuilder: (context, index) {
         var result = matchQuery[index];
-        // return ListTile(
-        //   title: Text(result.domain),
-        // );
         return Container(
           margin: const EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 0),
           child: Card(
@@ -162,18 +119,14 @@ class CustomSearchDelegate extends SearchDelegate {
                 ),
                 borderRadius: BorderRadius.circular(15.0), //<-- SEE HERE
               ),
-              // margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
               child: TextButton(
                 onPressed: () {
                   close(context, null);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AccountDetailsPage(
-                              domain: result.domain,
-                              username: result.user,
-                              passwordLength: result.passwordLength,
-                              versionNumber: result.versionNumber)));
+                          builder: (context) =>
+                              AccountDetailsPage(account:result)));
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
@@ -186,7 +139,7 @@ class CustomSearchDelegate extends SearchDelegate {
                     children: <Widget>[
                       ListTile(
                           leading: Image(
-                            image: NetworkImage(result.icon1),
+                            image: AssetImage('assets/images/${result.icon}'),
                           ),
                           title: Text(result.domain,
                               style: const TextStyle(
@@ -194,7 +147,7 @@ class CustomSearchDelegate extends SearchDelegate {
                                 color: Colors.black,
                               )),
                           // const SizedBox(height: 8.0),
-                          subtitle: Text(result.user,
+                          subtitle: Text(result.username,
                               style: const TextStyle(
                                   fontSize: 12.0, color: Colors.black)))
                     ]),
@@ -213,31 +166,9 @@ class AccountsList extends StatefulWidget {
 }
 
 class _AccountsListState extends State<AccountsList> {
-  Future<List<Account>> fetchAccounts() async {
-    List<Account> accounts = [];
-    final directory = await getApplicationDocumentsDirectory();
-    final db = File('${directory.path}/db.nomem');
-    final contents = await db.readAsLines();
-    int i = 0;
-    while (i < contents.length) {
-      accounts.add(Account(
-          domain: contents[i],
-          user: contents[i + 1],
-          passwordLength: int.parse(contents[i + 2]),
-          versionNumber: int.parse(contents[i + 3])));
-      i += 4;
-    }
-    if(click) {
-      if(ascendingSort) {
-        accounts.sort((a, b) => (a.domain.compareTo(b.domain)));
-      } else {
-        accounts.sort((a, b) => (b.domain.compareTo(a.domain)));
-      }
-    }
-    return accounts;
-  }
+  List<Account> accounts = DBHelper().fetchAllAccounts();
 
-  Widget accountTemplate(account, String i) {
+  Widget accountTemplate(account) {
     return Container(
       margin: const EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 0),
       child: Card(
@@ -252,14 +183,11 @@ class _AccountsListState extends State<AccountsList> {
           child: TextButton(
             onPressed: () {
               Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AccountDetailsPage(
-                              domain: account.domain,
-                              username: account.user,
-                              passwordLength: account.passwordLength,
-                              versionNumber: account.versionNumber)))
-                  .then((_) => setState(() {}));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          AccountDetailsPage(account:account)))
+                  .then((_) => setState(() {accounts = DBHelper().fetchAllAccounts();}));
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(
@@ -272,7 +200,7 @@ class _AccountsListState extends State<AccountsList> {
                 children: <Widget>[
                   ListTile(
                       leading: Image(
-                        image: NetworkImage(i),
+                        image: AssetImage('assets/images/${account.icon}'),
                       ),
                       title: Text(account.domain,
                           style: const TextStyle(
@@ -280,7 +208,7 @@ class _AccountsListState extends State<AccountsList> {
                             color: Colors.black,
                           )),
                       // const SizedBox(height: 8.0),
-                      subtitle: Text(account.user,
+                      subtitle: Text(account.username,
                           style: const TextStyle(
                               fontSize: 12.0, color: Colors.black)))
                 ]),
@@ -290,59 +218,55 @@ class _AccountsListState extends State<AccountsList> {
 
   bool click = false;
   bool ascendingSort = false;
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: fetchAccounts(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return Scaffold(
-              backgroundColor: const Color.fromRGBO(255, 251, 250, 1),
-              appBar: AppBar(
-                title: const Text(
-                  'Accounts',
-                  style: TextStyle(color: Colors.black),
-                ),
-                actions: <Widget>[
-                  IconButton(
-                    icon: const Icon(
-                      Icons.search,
-                      color: Colors.black,
-                    ),
-                    onPressed: !snapshot.hasData ? null : () {
-                      showSearch(
-                          context: context,
-                          // delegate to customize the search bar
-                          delegate: CustomSearchDelegate(snapshot.data));
-                    },
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        click = true;
-                        ascendingSort = !(ascendingSort);
-                      });
-                    },
-                    icon: const Icon(
-                        Icons.sort_by_alpha,
-                        color: Colors.black),
-                  ),
-                ],
-                centerTitle: true,
-                backgroundColor: const Color.fromRGBO(231, 224, 236, 1),
-                foregroundColor: const Color.fromRGBO(0, 0, 0, 1),
+    return Scaffold(
+        backgroundColor: const Color.fromRGBO(255, 251, 250, 1),
+        appBar: AppBar(
+          title: const Text(
+            'Accounts',
+            style: TextStyle(color: Colors.black),
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(
+                Icons.search,
+                color: Colors.black,
               ),
-              body: ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data == null ? 0 : snapshot.data.length,
-                itemBuilder: (BuildContext context, int idx) {
-                  if (snapshot.hasData) {
-                    return accountTemplate(
-                        snapshot.data[idx], snapshot.data[idx].icon1);
+              onPressed: () {
+            showSearch(
+            context: context,
+            // delegate to customize the search bar
+            delegate: CustomSearchDelegate(accounts));
+            },
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  ascendingSort = !(ascendingSort);
+                  if(ascendingSort) {
+                    accounts.sort((a, b) => a.domain.compareTo(b.domain));
                   } else {
-                    return const SizedBox.shrink();
+                    accounts.sort((a, b) => b.domain.compareTo(a.domain));
                   }
-                },
-              ));
-        });
-  }
-}
+                });
+              },
+              icon: const Icon(
+                  Icons.sort_by_alpha,
+                  color: Colors.black),
+            ),
+          ],
+          centerTitle: true,
+          backgroundColor: const Color.fromRGBO(231, 224, 236, 1),
+          foregroundColor: const Color.fromRGBO(0, 0, 0, 1),
+        ),
+        body: ListView.builder(
+          shrinkWrap: true,
+          itemCount: accounts.length,
+          itemBuilder: (BuildContext context, int idx) {
+              return accountTemplate(
+                  accounts[idx]);
+          },
+        ));
+}}
