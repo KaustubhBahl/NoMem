@@ -157,24 +157,51 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                         ),
                         child: AlertDialog(
                           title: Text(
-                              'Tap the password to copy'),
-                          content: GestureDetector(
-                            onTap: () {
-                              Clipboard.setData(ClipboardData(text: password));
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Password copied to clipboard")),
-                              );
-                            },
-                            child: Text(password),
+                            'Tap the icon to copy',
+                            textAlign: TextAlign.center,
                           ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Close'),
+                          content: Container(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(password),
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          Clipboard.setData(ClipboardData(text: password));
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(content: Text("Password copied to clipboard")),
+                                          );
+                                        },
+                                        icon: Icon(Icons.copy),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 16),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Close'),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       );
                     },
