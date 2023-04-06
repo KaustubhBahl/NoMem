@@ -4,6 +4,8 @@ import 'package:crypto/crypto.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/services.dart';
+
 
 // final List<String> commonDomains = ['Google', 'Twitter', 'Facebook'];
 
@@ -365,18 +367,36 @@ class AddAccountState extends State<AddAccount> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text(
-                                  'The account details have been stored. Tap to copy the generated password.'),
-                              content: Text(password),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text('Close'),
+                            return Theme(
+                              data: ThemeData(
+                                dialogTheme: DialogTheme(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
                                 ),
-                              ],
+                              ),
+                              child: AlertDialog(
+                                title: Text(
+                                    'The account details have been stored. Tap to copy the generated password.'),
+                                content: GestureDetector(
+                                  onTap: () {
+                                    Clipboard.setData(ClipboardData(text: password));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text("Password copied to clipboard")),
+                                    );
+                                  },
+                                  child: Text(password),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('Close'),
+                                  ),
+                                ],
+                              ),
                             );
                           },
                         );

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
+import 'package:flutter/services.dart';
 
 class AccountDetailsPage extends StatefulWidget {
   final String domain;
@@ -145,17 +146,36 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Tap the password to copy'),
-                        content: Text(password),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('Close'),
+                      return Theme(
+                        data: ThemeData(
+                          dialogTheme: DialogTheme(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
                           ),
-                        ],
+                        ),
+                        child: AlertDialog(
+                          title: Text(
+                              'Tap the password to copy'),
+                          content: GestureDetector(
+                            onTap: () {
+                              Clipboard.setData(ClipboardData(text: password));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Password copied to clipboard")),
+                              );
+                            },
+                            child: Text(password),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Close'),
+                            ),
+                          ],
+                        ),
                       );
                     },
                   );
@@ -188,62 +208,74 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Confirmation'),
-                            content: const Text(
-                                'Are you sure you want to update the password?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () async {
-                                  Navigator.of(context).pop();
-                                  final directory =
-                                      await getApplicationDocumentsDirectory();
-                                  final oldDB =
-                                      File('${directory.path}/db.nomem');
-                                  final newDB =
-                                      File('${directory.path}/db_new.nomem');
-                                  final contents = await oldDB.readAsLines();
-                                  int i = 0;
-                                  while (i < contents.length) {
-                                    if (contents[i] == widget.domain &&
-                                        contents[i + 1] == widget.username &&
-                                        int.parse(contents[i + 2]) ==
-                                            widget.passwordLength &&
-                                        int.parse(contents[i + 3]) ==
-                                            widget.versionNumber + update) {
-                                      await newDB.writeAsString(
-                                          '${contents[i]}\n${contents[i + 1]}\n${contents[i + 2]}\n${int.parse(contents[i + 3]) + 1}\n',mode:FileMode.append);
-                                    } else {
-                                      await newDB.writeAsString(
-                                          '${contents[i]}\n${contents[i + 1]}\n${contents[i + 2]}\n${contents[i + 3]}\n',mode:FileMode.append);
+                          return Theme(
+                            data: ThemeData(
+                              dialogTheme: DialogTheme(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
+                              ),
+                            ),
+                            child: AlertDialog(
+                              title: const Text('Confirmation'),
+                              content: const Text(
+                                'Are you sure you want to update the password?',
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () async {
+                                    Navigator.of(context).pop();
+                                    final directory =
+                                    await getApplicationDocumentsDirectory();
+                                    final oldDB = File('${directory.path}/db.nomem');
+                                    final newDB = File('${directory.path}/db_new.nomem');
+                                    final contents = await oldDB.readAsLines();
+                                    int i = 0;
+                                    while (i < contents.length) {
+                                      if (contents[i] == widget.domain &&
+                                          contents[i + 1] == widget.username &&
+                                          int.parse(contents[i + 2]) ==
+                                              widget.passwordLength &&
+                                          int.parse(contents[i + 3]) ==
+                                              widget.versionNumber + update) {
+                                        await newDB.writeAsString(
+                                          '${contents[i]}\n${contents[i + 1]}\n${contents[i + 2]}\n${int.parse(contents[i + 3]) + 1}\n',
+                                          mode: FileMode.append,
+                                        );
+                                      } else {
+                                        await newDB.writeAsString(
+                                          '${contents[i]}\n${contents[i + 1]}\n${contents[i + 2]}\n${contents[i + 3]}\n',
+                                          mode: FileMode.append,
+                                        );
+                                      }
+                                      i += 4;
                                     }
-                                    i += 4;
-                                  }
-                                  await oldDB.delete();
-                                  await newDB
-                                      .rename('${directory.path}/db.nomem');
-                                  setState(() {
-                                    update+=1;
-                                  });
-                                  Fluttertoast.showToast(
-                                      msg:
-                                          "The password has been updated successfully",
+                                    await oldDB.delete();
+                                    await newDB.rename('${directory.path}/db.nomem');
+                                    setState(() {
+                                      update += 1;
+                                    });
+                                    Fluttertoast.showToast(
+                                      msg: "The password has been updated successfully",
                                       toastLength: Toast.LENGTH_LONG,
                                       gravity: ToastGravity.CENTER,
                                       timeInSecForIosWeb: 1,
                                       backgroundColor: Colors.black,
                                       textColor: Colors.white,
-                                      fontSize: 16.0);
-                                },
-                                child: const Text('Yes'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('No'),
-                              ),
-                            ],
+                                      fontSize: 16.0,
+                                    );
+                                  },
+                                  child: const Text('Yes'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('No'),
+                                ),
+                              ],
+                            ),
                           );
                         },
                       );
@@ -265,58 +297,69 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Confirmation'),
-                            content: const Text(
-                                'Are you sure you want to delete the account?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () async {
-                                  Navigator.of(context).pop();
-                                  final directory =
-                                  await getApplicationDocumentsDirectory();
-                                  final oldDB =
-                                  File('${directory.path}/db.nomem');
-                                  final newDB =
-                                  File('${directory.path}/db_new.nomem');
-                                  // newDB.openWrite();
-                                  final contents = await oldDB.readAsLines();
-                                  int i = 0;
-                                  bool empty = true;
-                                  while (i < contents.length) {
-                                    if (contents[i] != widget.domain ||
-                                        contents[i + 1] != widget.username) {
-                                      await newDB.writeAsString(
-                                          '${contents[i]}\n${contents[i + 1]}\n${contents[i + 2]}\n${contents[i + 3]}\n', mode: FileMode.append);
-                                      empty = false;
+                          return Theme(
+                            data: ThemeData(
+                              dialogTheme: DialogTheme(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
+                              ),
+                            ),
+                            child: AlertDialog(
+                              title: const Text('Confirmation'),
+                              content: const Text(
+                                'Are you sure you want to delete the account?',
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () async {
+                                    Navigator.of(context).pop();
+                                    final directory =
+                                    await getApplicationDocumentsDirectory();
+                                    final oldDB =
+                                    File('${directory.path}/db.nomem');
+                                    final newDB =
+                                    File('${directory.path}/db_new.nomem');
+                                    // newDB.openWrite();
+                                    final contents = await oldDB.readAsLines();
+                                    int i = 0;
+                                    bool empty = true;
+                                    while (i < contents.length) {
+                                      if (contents[i] != widget.domain ||
+                                          contents[i + 1] != widget.username) {
+                                        await newDB.writeAsString(
+                                            '${contents[i]}\n${contents[i + 1]}\n${contents[i + 2]}\n${contents[i + 3]}\n', mode: FileMode.append);
+                                        empty = false;
+                                      }
+                                      i += 4;
                                     }
-                                    i += 4;
-                                  }
-                                  await oldDB.delete();
-                                  if(empty == true){
-                                    newDB.writeAsString('');
-                                  }
-                                  await newDB.rename('${directory.path}/db.nomem');
-                                  Navigator.of(context).pop();
-                                  Fluttertoast.showToast(
-                                      msg:
-                                      "The account has been deleted successfully",
-                                      toastLength: Toast.LENGTH_LONG,
-                                      gravity: ToastGravity.CENTER,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.black,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
-                                },
-                                child: const Text('Yes'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('No'),
-                              ),
-                            ],
+                                    await oldDB.delete();
+                                    if(empty == true){
+                                      newDB.writeAsString('');
+                                    }
+                                    await newDB.rename('${directory.path}/db.nomem');
+                                    Navigator.of(context).pop();
+                                    Fluttertoast.showToast(
+                                        msg:
+                                        "The account has been deleted successfully",
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.CENTER,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: Colors.black,
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                  },
+                                  child: const Text('Yes'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('No'),
+                                ),
+                              ],
+                            ),
                           );
                         },
                       );
