@@ -57,8 +57,8 @@ class DBHelper {
       ..domain = domain
       ..username = username
       ..length = length
-      ..version = version;
-      ..icon
+      ..version = version
+      ..icon = icon;
     final accountBox = getAccountBox(); // get the box
     accountBox.add(account);
     return true;
