@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:nomem/pages/account_details.dart';
 import 'package:nomem/model/account.dart';
 import 'package:nomem/dbhelper.dart';
+import 'package:hive/hive.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
 
@@ -164,6 +166,7 @@ class AccountsList extends StatefulWidget {
 }
 
 class _AccountsListState extends State<AccountsList> {
+  List<Account> accounts = DBHelper().fetchAllAccounts();
 
   Widget accountTemplate(account) {
     return Container(
@@ -184,7 +187,7 @@ class _AccountsListState extends State<AccountsList> {
                   MaterialPageRoute(
                       builder: (context) =>
                           AccountDetailsPage(account:account)))
-                  .then((_) => setState(() {}));
+                  .then((_) => setState(() {accounts = DBHelper().fetchAllAccounts();}));
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(
@@ -235,14 +238,18 @@ class _AccountsListState extends State<AccountsList> {
             showSearch(
             context: context,
             // delegate to customize the search bar
-            delegate: CustomSearchDelegate(DBHelper().fetchAllAccounts()));
+            delegate: CustomSearchDelegate(accounts));
             },
             ),
             IconButton(
               onPressed: () {
                 setState(() {
-                  click = true;
                   ascendingSort = !(ascendingSort);
+                  if(ascendingSort) {
+                    accounts.sort((a, b) => a.domain.compareTo(b.domain));
+                  } else {
+                    accounts.sort((a, b) => b.domain.compareTo(a.domain));
+                  }
                 });
               },
               icon: const Icon(
@@ -256,10 +263,10 @@ class _AccountsListState extends State<AccountsList> {
         ),
         body: ListView.builder(
           shrinkWrap: true,
-          itemCount: DBHelper().fetchAllAccounts().length,
+          itemCount: accounts.length,
           itemBuilder: (BuildContext context, int idx) {
               return accountTemplate(
-                  DBHelper().fetchAllAccounts()[idx]);
+                  accounts[idx]);
           },
         ));
 }}
