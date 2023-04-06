@@ -24,80 +24,132 @@ class Home extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/addAccount');
-                      },
-                      style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(22))),
-                          backgroundColor: MaterialStateProperty.all(
-                              const Color.fromRGBO(232, 222, 248, 1)),
-                          shadowColor: MaterialStateProperty.all(Colors.black),
-                          elevation: MaterialStateProperty.all(12)),
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 13, horizontal: 12),
-                        child: Text('Add a new account',
-                            style: TextStyle(color: Colors.black)),
-                      )),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/addAccount');
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                      ),
+                      backgroundColor:
+                      MaterialStateProperty.all(const Color.fromRGBO(232, 222, 248, 1)),
+                      shadowColor: MaterialStateProperty.all(Colors.black),
+                      elevation: MaterialStateProperty.all(12),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 13, horizontal: 12),
+                      child: Row(
+                        children: [
+                          Icon(Icons.add, color: Colors.black),
+                          SizedBox(width: 10),
+                          Text(
+                            'Generate new password',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/accountsList');
-                      },
-                      style: ButtonStyle(
-                          shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(22))),
-                          backgroundColor: MaterialStateProperty.all(
-                              const Color.fromRGBO(232, 222, 248, 1)),
-                          shadowColor: MaterialStateProperty.all(Colors.black),
-                          elevation: MaterialStateProperty.all(12)),
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 13, horizontal: 12),
-                        child: Text('Manage an existing account',
-                            style: TextStyle(color: Colors.black)),
-                      )),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/accountsList');
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                      ),
+                      backgroundColor:
+                      MaterialStateProperty.all(const Color.fromRGBO(232, 222, 248, 1)),
+                      shadowColor: MaterialStateProperty.all(Colors.black),
+                      elevation: MaterialStateProperty.all(12),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 13, horizontal: 12),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.visibility_outlined,
+                            color: Colors.black,
+                            size: 30,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'View Password',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                          shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(22))),
-                          backgroundColor: MaterialStateProperty.all(
-                              const Color.fromRGBO(232, 222, 248, 1)),
-                          shadowColor: MaterialStateProperty.all(Colors.black),
-                          elevation: MaterialStateProperty.all(12)),
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 13, horizontal: 12),
-                        child: Text('Import accounts',
-                            style: TextStyle(color: Colors.black)),
-                      )),
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                      ),
+                      backgroundColor:
+                      MaterialStateProperty.all(const Color.fromRGBO(232, 222, 248, 1)),
+                      shadowColor: MaterialStateProperty.all(Colors.black),
+                      elevation: MaterialStateProperty.all(12),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 13, horizontal: 12),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.file_upload,
+                            color: Colors.black,
+                            size: 30,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Import accounts',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                          shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(22))),
-                          backgroundColor: MaterialStateProperty.all(
-                              const Color.fromRGBO(232, 222, 248, 1)),
-                          shadowColor: MaterialStateProperty.all(Colors.black),
-                          elevation: MaterialStateProperty.all(12)),
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 13, horizontal: 12),
-                        child: Text('Export accounts',
-                            style: TextStyle(color: Colors.black)),
-                      )),
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                      ),
+                      backgroundColor:
+                      MaterialStateProperty.all(const Color.fromRGBO(232, 222, 248, 1)),
+                      shadowColor: MaterialStateProperty.all(Colors.black),
+                      elevation: MaterialStateProperty.all(12),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 13, horizontal: 12),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.file_download,
+                            color: Colors.black,
+                            size: 30,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Export accounts',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 40),
                 ],
               )),
