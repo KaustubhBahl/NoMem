@@ -75,10 +75,32 @@ class DBHelper {
   }
 
   void updatePassword(String domain, String username) {
-    // TODO: implement update password of an account
+    void updatePassword(String domain, String username) {
+      // TODO: implement update password of an account
+      var i =0;
+      List<Account> accounts = fetchAllAccounts();
+      for (var account in  accounts) {
+        if (account.domain == domain && account.username == username) {
+          account.version +=1;
+          getAccountBox().putAt(i, account);
+          return ;
+        }
+        i+=1;
+      }
+      // print("Error in database.");
+      return;
+    }
+
   }
 
   void deleteAccount(String domain, String username) {
     // TODO: implement delete account for an account
+    List<Account> accounts = fetchAllAccounts();
+    for (var account in accounts) {
+      if (account.domain == domain && account.username == username) {
+        account.delete();
+        return;
+      }
+    }
   }
 }

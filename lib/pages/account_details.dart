@@ -75,7 +75,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                 Expanded(
                   child: _buildCard(
                     title: 'Version Number',
-                    value: widget.account.version.toString(),
+                    value: (widget.account.version+update).toString(),
                   ),
                 ),
               ],
@@ -114,7 +114,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                    setState(() {validateUserKey = true;});
                    return;
                   }
-                  final password = PasswordGen(domain: widget.account.domain, username: widget.account.username, length: widget.account.length.toString(), version: widget.account.version.toString(), userKey: userKeyController.text.trim()).generatePassword();
+                  final password = PasswordGen(domain: widget.account.domain, username: widget.account.username, length: widget.account.length.toString(), version: (widget.account.version+update).toString(), userKey: userKeyController.text.trim()).generatePassword();
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
