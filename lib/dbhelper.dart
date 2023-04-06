@@ -18,37 +18,27 @@ class DBHelper {
     }
 
     var icon = '';
-    if(domain == 'Google') {
+    if (domain == 'Google') {
       icon = 'google-listicon.png';
-    }
-    else if (domain == 'Facebook') {
+    } else if (domain == 'Facebook') {
       icon = 'facebook-listicon.png';
-    }
-    else if (domain == 'Twitter') {
+    } else if (domain == 'Twitter') {
       icon = 'twitter-listicon.png';
-    }
-    else if (domain == 'SBI') {
+    } else if (domain == 'SBI') {
       icon = 'sbi-listicon.png';
-    }
-    else if (domain == 'Instagram') {
+    } else if (domain == 'Instagram') {
       icon = 'instagram-listicon.png';
-    }
-    else if (domain == 'LinkedIn') {
+    } else if (domain == 'LinkedIn') {
       icon = 'linkedin-listicon.png';
-    }
-    else if (domain == 'Eduserver') {
+    } else if (domain == 'Eduserver') {
       icon = 'eduserver-listicon.png';
-    }
-    else if (domain == 'HDFC') {
+    } else if (domain == 'HDFC') {
       icon = 'hdfc-listicon.png';
-    }
-    else if (domain == 'ICICI') {
+    } else if (domain == 'ICICI') {
       icon = 'icici-listicon.png';
-    }
-    else if (domain == 'Aternos') {
+    } else if (domain == 'Aternos') {
       icon = 'aternos-listicon.png';
-    }
-    else {
+    } else {
       icon = 'default-listicon.png';
     }
 
@@ -75,26 +65,20 @@ class DBHelper {
   }
 
   void updatePassword(String domain, String username) {
-    void updatePassword(String domain, String username) {
-      // TODO: implement update password of an account
-      var i =0;
-      List<Account> accounts = fetchAllAccounts();
-      for (var account in  accounts) {
-        if (account.domain == domain && account.username == username) {
-          account.version +=1;
-          getAccountBox().putAt(i, account);
-          return ;
-        }
-        i+=1;
+    var i = 0;
+    List<Account> accounts = fetchAllAccounts();
+    for (var account in accounts) {
+      if (account.domain == domain && account.username == username) {
+        account.version += 1;
+        getAccountBox().putAt(i, account);
+        return;
       }
-      // print("Error in database.");
-      return;
+      i += 1;
     }
-
+    return;
   }
 
   void deleteAccount(String domain, String username) {
-    // TODO: implement delete account for an account
     List<Account> accounts = fetchAllAccounts();
     for (var account in accounts) {
       if (account.domain == domain && account.username == username) {

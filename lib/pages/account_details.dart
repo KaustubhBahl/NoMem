@@ -6,17 +6,14 @@ import 'package:nomem/model/account.dart';
 
 class AccountDetailsPage extends StatefulWidget {
   final Account account;
-  const AccountDetailsPage({
-    Key? key,
-    required this.account
-  }) : super(key: key);
+
+  const AccountDetailsPage({Key? key, required this.account}) : super(key: key);
 
   @override
   State<AccountDetailsPage> createState() => _AccountDetailsPageState();
 }
 
 class _AccountDetailsPageState extends State<AccountDetailsPage> {
-  int update = 0;
   final userKeyController = TextEditingController();
   bool validateUserKey = false;
 
@@ -75,7 +72,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                 Expanded(
                   child: _buildCard(
                     title: 'Version Number',
-                    value: (widget.account.version+update).toString(),
+                    value: (widget.account.version).toString(),
                   ),
                 ),
               ],
@@ -90,7 +87,8 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                     border: const OutlineInputBorder(),
                     labelText: 'User Key',
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    errorText: validateUserKey ? 'Please enter the user key' : null,
+                    errorText:
+                        validateUserKey ? 'Please enter the user key' : null,
                   ),
                 ),
               ),
@@ -110,11 +108,19 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               width: 175.0,
               child: ElevatedButton(
                 onPressed: () {
-                  if(userKeyController.text.trim().isEmpty) {
-                   setState(() {validateUserKey = true;});
-                   return;
+                  if (userKeyController.text.trim().isEmpty) {
+                    setState(() {
+                      validateUserKey = true;
+                    });
+                    return;
                   }
-                  final password = PasswordGen(domain: widget.account.domain, username: widget.account.username, length: widget.account.length.toString(), version: (widget.account.version+update).toString(), userKey: userKeyController.text.trim()).generatePassword();
+                  final password = PasswordGen(
+                          domain: widget.account.domain,
+                          username: widget.account.username,
+                          length: widget.account.length.toString(),
+                          version: widget.account.version.toString(),
+                          userKey: userKeyController.text.trim())
+                      .generatePassword();
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -169,10 +175,10 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                               TextButton(
                                 onPressed: () async {
                                   Navigator.of(context).pop();
-                                  DBHelper().updatePassword(widget.account.domain, widget.account.username);
-                                  setState(() {
-                                    update+=1;
-                                  });
+                                  DBHelper().updatePassword(
+                                      widget.account.domain,
+                                      widget.account.username);
+                                  setState(() {});
                                   Fluttertoast.showToast(
                                       msg:
                                           "The password has been updated successfully",
@@ -221,11 +227,13 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                               TextButton(
                                 onPressed: () async {
                                   Navigator.of(context).pop();
-                                  DBHelper().deleteAccount(widget.account.domain, widget.account.username);
+                                  DBHelper().deleteAccount(
+                                      widget.account.domain,
+                                      widget.account.username);
                                   Navigator.of(context).pop();
                                   Fluttertoast.showToast(
                                       msg:
-                                      "The account has been deleted successfully",
+                                          "The account has been deleted successfully",
                                       toastLength: Toast.LENGTH_LONG,
                                       gravity: ToastGravity.CENTER,
                                       timeInSecForIosWeb: 1,
