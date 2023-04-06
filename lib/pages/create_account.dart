@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nomem/dbhelper.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nomem/passwordGen.dart';
 
@@ -77,7 +75,7 @@ class AddAccountState extends State<AddAccount> {
                           },
                           controller: domainController)),
                   // const SizedBox(height: 10),
-                  Text(
+                  const Text(
                     "e.g. 'Facebook', 'Twitter' ,etc. No need to enter complete URL.",
                     style: TextStyle(
                       fontSize: 11,
@@ -109,7 +107,7 @@ class AddAccountState extends State<AddAccount> {
                             return null;
                           },
                           controller: usernameController)),
-                  Text(
+                  const Text(
                     "The unique login ID for your account.",
                     style: TextStyle(
                       fontSize: 11,
@@ -144,7 +142,7 @@ class AddAccountState extends State<AddAccount> {
                             return null;
                           },
                           controller: versionController)),
-                  Text(
+                  const Text(
                     "The version number of current password. You \n can update this later to update the password.",
                     style: TextStyle(
                       fontSize: 11,
@@ -180,7 +178,7 @@ class AddAccountState extends State<AddAccount> {
                             return null;
                           },
                           controller: lengthController)),
-                  Text(
+                  const Text(
                     "The length of the password",
                     style: TextStyle(
                       fontSize: 11,
@@ -207,7 +205,7 @@ class AddAccountState extends State<AddAccount> {
                             // hintStyle: const TextStyle(fontStyle:FontStyle.italic ),
                           ),
                           controller: userKeyController)),
-                  Text(
+                  const Text(
                     'Your secret personal key that is used to generate all your passwords',
                     style: TextStyle(
                       fontSize: 12,
@@ -273,7 +271,7 @@ class AddAccountState extends State<AddAccount> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text(
+                              title: const Text(
                                   'The account details have been stored. Tap to copy the generated password.'),
                               content: Text(password),
                               actions: [
@@ -281,23 +279,23 @@ class AddAccountState extends State<AddAccount> {
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
-                                  child: Text('Close'),
+                                  child: const Text('Close'),
                                 ),
                               ],
                             );
                           },
                         );
                       },
-                      child: Text(
+                      style: ElevatedButton.styleFrom(
+                        // primary: const Color.fromRGBO(232, 222, 248, 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(22),
+                        ),
+                      ),
+                      child: const Text(
                         'Generate Password',
                         style: TextStyle(
                           color: Color(0xFF4A4458),
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromRGBO(232, 222, 248, 1),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(22),
                         ),
                       ),
                     ),

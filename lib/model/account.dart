@@ -15,4 +15,7 @@ class Account extends HiveObject {
 
   @HiveField(3)
   late int version;
+
+  @HiveField(4)
+  late String icon;
 }

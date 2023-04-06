@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:nomem/pages/home.dart';
 import 'package:nomem/pages/accountslist.dart';
 import 'package:nomem/pages/create_account.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:nomem/model/account.dart';
 
 void main() async {
+  await Hive.initFlutter();
   const secureStorage = FlutterSecureStorage();
   // if key not exists return null
   final encryptionKeyString = await secureStorage.read(key: 'key');

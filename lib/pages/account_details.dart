@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:crypto/crypto.dart';
-import 'dart:convert';
+import 'package:nomem/passwordGen.dart';
+import 'package:nomem/dbhelper.dart';
+import 'package:nomem/model/account.dart';
 
 class AccountDetailsPage extends StatefulWidget {
-  final String domain;
-  final String username;
-  final int passwordLength;
-  final int versionNumber;
-
+  final Account account;
   const AccountDetailsPage({
     Key? key,
-    required this.domain,
-    required this.username,
-    required this.passwordLength,
-    required this.versionNumber,
+    required this.account
   }) : super(key: key);
 
   @override
@@ -31,18 +23,18 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(255, 251, 250, 1),
+      backgroundColor: const Color.fromRGBO(255, 251, 250, 1),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(232, 222, 248, 1),
+        backgroundColor: const Color.fromRGBO(232, 222, 248, 1),
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Account Details',
           style: TextStyle(
             color: Color(0xFF1C1B1F),
           ),
         ),
         leading: IconButton(
-          icon: Icon(Icons.menu, color: Color(0xFF49454F)),
+          icon: const Icon(Icons.menu, color: Color(0xFF49454F)),
           onPressed: () {
             //Navigate to the menu page
           },
@@ -58,44 +50,44 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                 Expanded(
                   child: _buildCard(
                     title: 'Domain name',
-                    value: widget.domain,
+                    value: widget.account.domain,
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: _buildCard(
                     title: 'Username',
-                    value: widget.username,
+                    value: widget.account.username,
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
                   child: _buildCard(
                     title: 'Password Length',
-                    value: widget.passwordLength.toString(),
+                    value: widget.account.length.toString(),
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: _buildCard(
                     title: 'Version Number',
-                    value: (widget.versionNumber+update).toString(),
+                    value: widget.account.version.toString(),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 112),
+            const SizedBox(height: 112),
             Center(
               child: SizedBox(
                 width: 300,
                 child: TextField(
                   controller: userKeyController,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     labelText: 'User Key',
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     errorText: validateUserKey ? 'Please enter the user key' : null,
@@ -103,7 +95,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             const Text(
               'Your secret personal key that is used to \n'
               'generate all your passwords',
@@ -113,7 +105,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             SizedBox(
               width: 175.0,
               child: ElevatedButton(
@@ -122,30 +114,19 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                    setState(() {validateUserKey = true;});
                    return;
                   }
-                  final data = "${widget.domain}\n${widget.username}\n${widget.passwordLength}\n${widget.versionNumber+update}\n${userKeyController.text.trim()}\n";
-                  var bytes = utf8.encode(data); // data being hashed
-                  var digest = sha512.convert(bytes);
-                  var digesthex = '$digest';
-                  var i = 0;
-                  var sum = 0;
-                  var len = widget.passwordLength;
-                  while(i<digesthex.length) {
-                    sum += digesthex[i].codeUnitAt(0);
-                    i++;
-                  }
-                  final password = digesthex.substring(0,len-4) + String.fromCharCode(sum%15+'!'.codeUnitAt(0)) + String.fromCharCode(sum%26+'A'.codeUnitAt(0)) + String.fromCharCode(sum%26+'a'.codeUnitAt(0)) + String.fromCharCode(sum%10+'0'.codeUnitAt(0));
+                  final password = PasswordGen(domain: widget.account.domain, username: widget.account.username, length: widget.account.length.toString(), version: widget.account.version.toString(), userKey: userKeyController.text.trim()).generatePassword();
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text('Tap the password to copy'),
+                        title: const Text('Tap the password to copy.'),
                         content: Text(password),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: Text('Close'),
+                            child: const Text('Close'),
                           ),
                         ],
                       );
@@ -153,7 +134,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(232, 222, 248, 1),
+                  // primary: const Color.fromRGBO(232, 222, 248, 1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(22),
                   ),
@@ -167,7 +148,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               ),
             ),
             // Spacer(),
-            SizedBox(height: 80),
+            const SizedBox(height: 80),
             Row(
               children: [
                 Expanded(
@@ -188,32 +169,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                               TextButton(
                                 onPressed: () async {
                                   Navigator.of(context).pop();
-                                  final directory =
-                                      await getApplicationDocumentsDirectory();
-                                  final oldDB =
-                                      File('${directory.path}/db.nomem');
-                                  final newDB =
-                                      File('${directory.path}/db_new.nomem');
-                                  final contents = await oldDB.readAsLines();
-                                  int i = 0;
-                                  while (i < contents.length) {
-                                    if (contents[i] == widget.domain &&
-                                        contents[i + 1] == widget.username &&
-                                        int.parse(contents[i + 2]) ==
-                                            widget.passwordLength &&
-                                        int.parse(contents[i + 3]) ==
-                                            widget.versionNumber + update) {
-                                      await newDB.writeAsString(
-                                          '${contents[i]}\n${contents[i + 1]}\n${contents[i + 2]}\n${int.parse(contents[i + 3]) + 1}\n',mode:FileMode.append);
-                                    } else {
-                                      await newDB.writeAsString(
-                                          '${contents[i]}\n${contents[i + 1]}\n${contents[i + 2]}\n${contents[i + 3]}\n',mode:FileMode.append);
-                                    }
-                                    i += 4;
-                                  }
-                                  await oldDB.delete();
-                                  await newDB
-                                      .rename('${directory.path}/db.nomem');
+                                  DBHelper().updatePassword(widget.account.domain, widget.account.username);
                                   setState(() {
                                     update+=1;
                                   });
@@ -241,7 +197,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: const Color(0xFF3B3B3B),
+                      // primary: const Color(0xFF3B3B3B),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
                       ),
@@ -265,30 +221,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                               TextButton(
                                 onPressed: () async {
                                   Navigator.of(context).pop();
-                                  final directory =
-                                  await getApplicationDocumentsDirectory();
-                                  final oldDB =
-                                  File('${directory.path}/db.nomem');
-                                  final newDB =
-                                  File('${directory.path}/db_new.nomem');
-                                  // newDB.openWrite();
-                                  final contents = await oldDB.readAsLines();
-                                  int i = 0;
-                                  bool empty = true;
-                                  while (i < contents.length) {
-                                    if (contents[i] != widget.domain ||
-                                        contents[i + 1] != widget.username) {
-                                      await newDB.writeAsString(
-                                          '${contents[i]}\n${contents[i + 1]}\n${contents[i + 2]}\n${contents[i + 3]}\n', mode: FileMode.append);
-                                      empty = false;
-                                    }
-                                    i += 4;
-                                  }
-                                  await oldDB.delete();
-                                  if(empty == true){
-                                    newDB.writeAsString('');
-                                  }
-                                  await newDB.rename('${directory.path}/db.nomem');
+                                  DBHelper().deleteAccount(widget.account.domain, widget.account.username);
                                   Navigator.of(context).pop();
                                   Fluttertoast.showToast(
                                       msg:
@@ -314,7 +247,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: const Color(0xFFDC362E),
+                      // primary: const Color(0xFFDC362E),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
                       ),
@@ -336,7 +269,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
     return Card(
       elevation: 4,
       // shadowColor: Color.fromRGBO(255, 255, 255, 1),
-      color: Color.fromRGBO(232, 222, 248, 1),
+      color: const Color.fromRGBO(232, 222, 248, 1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -347,15 +280,15 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
           children: [
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 12,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
               ),
             ),

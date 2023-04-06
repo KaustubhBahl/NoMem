@@ -248,6 +248,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "hive_flutter",
+      "rootUri": "file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/hive_flutter-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "hive_generator",
       "rootUri": "file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/hive_generator-2.0.0",
       "packageUri": "lib/",
@@ -530,7 +536,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2023-04-05T13:49:40.927854Z",
+  "generated": "2023-04-06T01:16:32.212807Z",
   "generator": "pub",
   "generatorVersion": "2.19.5"
 }

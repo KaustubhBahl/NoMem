@@ -16,12 +16,49 @@ class DBHelper {
         return false;
       }
     }
+
+    var icon = '';
+    if(domain == 'Google') {
+      icon = 'google-listicon.png';
+    }
+    else if (domain == 'Facebook') {
+      icon = 'facebook-listicon.png';
+    }
+    else if (domain == 'Twitter') {
+      icon = 'twitter-listicon.png';
+    }
+    else if (domain == 'SBI') {
+      icon = 'sbi-listicon.png';
+    }
+    else if (domain == 'Instagram') {
+      icon = 'instagram-listicon.png';
+    }
+    else if (domain == 'LinkedIn') {
+      icon = 'linkedin-listicon.png';
+    }
+    else if (domain == 'Eduserver') {
+      icon = 'eduserver-listicon.png';
+    }
+    else if (domain == 'HDFC') {
+      icon = 'hdfc-listicon.png';
+    }
+    else if (domain == 'ICICI') {
+      icon = 'icici-listicon.png';
+    }
+    else if (domain == 'Aternos') {
+      icon = 'aternos-listicon.png';
+    }
+    else {
+      icon = 'default-listicon.png';
+    }
+
     // if no such account present, insert into the box with the key being domain+username
     final account = Account() // create the required account record
       ..domain = domain
       ..username = username
       ..length = length
       ..version = version;
+      ..icon
     final accountBox = getAccountBox(); // get the box
     accountBox.add(account);
     return true;
