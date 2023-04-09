@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:hive/hive.dart';
 import 'package:nomem/dbhelper.dart';
 import 'package:nomem/model/account.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -16,9 +15,7 @@ class Export {
         .getDirectoryPath(dialogTitle: 'Select folder to export to: ');
     if (dirPath != null) {
       final exportedFile = File('$dirPath/$filenameSuffix-data.nomem');
-      final Directory appDocumentsDir =
-          await getApplicationDocumentsDirectory();
-      File db = File('${appDocumentsDir.path}/accounts.hive');
+      File db = File(DBHelper.getAccountBox().path!);
       exportedFile.writeAsBytesSync(db.readAsBytesSync());
       return true;
     }

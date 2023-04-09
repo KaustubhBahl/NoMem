@@ -6,6 +6,10 @@ analyzer
 2.19
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/analyzer-5.10.0/
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/analyzer-5.10.0/lib/
+archive
+2.12
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/archive-3.3.7/
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/archive-3.3.7/lib/
 args
 2.18
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/args-2.4.0/
@@ -58,6 +62,10 @@ checked_yaml
 2.18
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/checked_yaml-2.0.2/
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/checked_yaml-2.0.2/lib/
+cli_util
+2.19
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/cli_util-0.4.0/
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/cli_util-0.4.0/lib/
 clock
 2.12
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/clock-1.1.1/
@@ -106,6 +114,10 @@ fixnum
 2.19
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/fixnum-1.1.0/
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/fixnum-1.1.0/lib/
+flutter_launcher_icons
+2.18
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_launcher_icons-0.13.0/
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_launcher_icons-0.13.0/lib/
 flutter_lints
 2.17
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-2.0.1/
@@ -174,6 +186,10 @@ http_parser
 2.12
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.0.2/
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.0.2/lib/
+image
+2.15
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/image-4.0.15/
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/image-4.0.15/lib/
 io
 2.12
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/io-1.0.4/
@@ -242,6 +258,10 @@ path_provider_windows
 2.17
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_windows-2.1.5/
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_windows-2.1.5/lib/
+petitparser
+2.18
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/petitparser-5.1.0/
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/petitparser-5.1.0/lib/
 platform
 2.12
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/platform-3.1.0/
@@ -250,6 +270,10 @@ plugin_platform_interface
 2.17
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/plugin_platform_interface-2.1.4/
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/plugin_platform_interface-2.1.4/lib/
+pointycastle
+2.14
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/pointycastle-3.7.2/
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/pointycastle-3.7.2/lib/
 pool
 2.12
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/pool-1.5.1/
@@ -338,6 +362,10 @@ xdg_directories
 2.17
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/xdg_directories-1.0.0/
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/xdg_directories-1.0.0/lib/
+xml
+2.18
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/xml-6.2.2/
+file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/xml-6.2.2/lib/
 yaml
 2.12
 file:///C:/Users/HP/AppData/Local/Pub/Cache/hosted/pub.dev/yaml-3.1.1/

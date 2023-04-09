@@ -200,7 +200,7 @@ class Home extends StatelessWidget {
           height: 70,
           child: const Center(
             child: Text(
-              'COPYRIGHT BY G5',
+              'MADE BY G5',
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
             ),
