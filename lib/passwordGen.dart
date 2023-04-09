@@ -151,38 +151,43 @@ String passgen_v4(String str,int len)
   }
   int pos1,pos2,pos3,pos4;
   
-  var arr = [1,1,1,1,1];
-  int n=0;
-  int q=len;
-  int index;
   
+  List<int> arr = [];
+  List<int> pos =[];
+  j=0;
+  while(j<len)
+  {
+    arr.add(j);
+    j++;
+  }
+  
+  
+  int n=len;
   int k=0;
   while(k<4)
   {
-    j=0;
-    index=sum%q;
-    while(j<n && index>=arr[j])
-    {
-      j++;
-    }
-    index=index+j;
-    int repval=index;
-    n++;
+    int index=sum%n;
+    pos.add(arr[index]);
+    j=index;
+    n--;
     while(j<n)
     {
-      int x=repval;
-      repval=arr[j];
-      arr[j]=x;
+      arr[j]=arr[j+1];
       j++;
     }
-    q--;
     k++;
   }
-  pos1=arr[0];
-  pos2=arr[1];
-  pos3=arr[2];
-  pos4=arr[3];
-  print('$q\n$pos1  $pos2  $pos3  $pos4\n');
+  
+    
+    
+    
+    
+    
+  pos1=pos[0];
+  pos2=pos[1];
+  pos3=pos[2];
+  pos4=pos[3];
+  print('\n$pos1  $pos2  $pos3  $pos4\n');
   String password='';
   j=0;
   while(j<len)
@@ -191,7 +196,7 @@ String passgen_v4(String str,int len)
     j++;
   }
   return password;
-}  
+}
   
   
   
