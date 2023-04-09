@@ -12,7 +12,6 @@ class AddAccount extends StatefulWidget {
 }
 
 class AddAccountState extends State<AddAccount> {
-  final domainController = TextEditingController();
   final usernameController = TextEditingController();
   final lengthController = TextEditingController(text: '12');
   final versionController = TextEditingController(text: '1');
@@ -23,7 +22,6 @@ class AddAccountState extends State<AddAccount> {
 
   @override
   void dispose() {
-    domainController.dispose();
     usernameController.dispose();
     lengthController.dispose();
     versionController.dispose();
@@ -233,9 +231,9 @@ class AddAccountState extends State<AddAccount> {
                           validator: (value) {
                             if (value == null ||
                                 int.tryParse(value.trim()) == null ||
-                                int.parse(value.trim()) < 1 ||
+                                int.parse(value.trim()) < 4 ||
                                 int.parse(value.trim()) > 128) {
-                              return 'Password length must be between 1 and 128';
+                              return 'Password length must be between 4 and 128';
                             }
                             return null;
                           },
