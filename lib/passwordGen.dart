@@ -5,60 +5,60 @@ class PasswordGen {
   final String domain, username, length, version, userKey;
 
   String modify(int bv,int index,int sum,int pos1,int pos2,int pos3,int pos4)
+{
+  int x=0;
+  int fv=(bv^index^sum)%77;
+  if(index==pos1)
   {
-    int x=0;
-    int fv=((bv%77)*(index%77)*(sum%77))%77;
-    if(index==pos1)
-    {
-      x=fv%15+'!'.codeUnitAt(0);
-    }
-    else if(index==pos2)
+    x=fv%15+'!'.codeUnitAt(0);
+  }
+  else if(index==pos2)
+  {
+    x=fv%26+'A'.codeUnitAt(0);
+  }
+  else if(index==pos3)
+  {
+    x=fv%26+'a'.codeUnitAt(0);
+  }
+  else if(index==pos4)
+  {
+    x=fv%10+'0'.codeUnitAt(0);
+  }
+  else
+  {
+    x=usual_modify(bv,index,sum);
+  }
+  return String.fromCharCode(x);
+  
+}  
+int usual_modify(int bv,int index,int sum)
+{
+  int x;
+  int fv=(bv^index^sum)%77;
+  if(fv>=0 && fv<15)
+  {
+    x=fv%15+'!'.codeUnitAt(0);
+  }
+  else
+  {
+    if(fv>=15 && fv<41)
     {
       x=fv%26+'A'.codeUnitAt(0);
     }
-    else if(index==pos3)
-    {
-      x=fv%26+'a'.codeUnitAt(0);
-    }
-    else if(index==pos4)
-    {
-      x=fv%10+'0'.codeUnitAt(0);
-    }
     else
     {
-      x=usual_modify(bv,index,sum);
-    }
-    return String.fromCharCode(x);
-
-  }
-  int usual_modify(int bv,int index,int sum)
-  {
-    int x;
-    int fv=((bv%77)*(index%77)*(sum%77))%77;
-    if(fv>=0 && fv<15)
-    {
-      x=fv%15+'!'.codeUnitAt(0);
-    }
-    else
-    {
-      if(fv>=15 && fv<41)
+      if(fv>=41 && fv<67)
       {
-        x=fv%26+'A'.codeUnitAt(0);
+        x=fv%26+'a'.codeUnitAt(0);
       }
       else
       {
-        if(fv>=41 && fv<67)
-        {
-          x=fv%26+'a'.codeUnitAt(0);
-        }
-        else
-        {
-          x=fv%10+'0'.codeUnitAt(0);
-        }
+        x=fv%10+'0'.codeUnitAt(0);
       }
-    }
-    return x;
+    } 
   }
+  return x;
+}
   String passgen(String str,int len)
   {
     int j=0;
