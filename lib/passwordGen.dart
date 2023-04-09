@@ -110,6 +110,39 @@ String passgen_v2(String str,int len)
   }
   return password;
 }
+
+
+  
+String passgen_v3(String str,int len)
+{
+  int j=0;
+  int sum=0;
+  while(j<str.length)
+  {
+    sum=sum+str[j].codeUnitAt(0);
+    j++;
+  }
+  int pos1,pos2,pos3,pos4;
+  int p=len~/4;
+  int q=sum%p;
+  pos1=0*(len~/4)+sum%p;
+  pos2=1*(len~/4)+(sum~/2)%p;
+  pos3=2*(len~/4)+(sum~/4)%p;
+  pos4=3*(len~/4)+(sum~/8)%p;
+  print('$q\n$pos1  $pos2  $pos3  $pos4\n');
+  String password='';
+  j=0;
+  while(j<len)
+  {
+    password=password+modify(str[j].codeUnitAt(0),j,sum,pos1,pos2,pos3,pos4);
+    j++;
+  }
+  return password;
+}
+  
+  
+  
+  
   
 
   const PasswordGen(
@@ -125,7 +158,7 @@ String passgen_v2(String str,int len)
     var digest = sha512.convert(bytes);
     String digestHex = '$digest';
     var len = int.parse(length);
-    final password = passgen_v2(digestHex,len);
+    final password = passgen_v3(digestHex,len);
     return password;
   }
 }
