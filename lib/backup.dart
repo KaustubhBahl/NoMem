@@ -14,7 +14,7 @@ class Export {
     final dirPath = await FilePicker.platform
         .getDirectoryPath(dialogTitle: 'Select folder to export to: ');
     if (dirPath != null) {
-      final exportedFile = File('$dirPath/$filenameSuffix-data.nomem');
+      final exportedFile = await File('$dirPath/$filenameSuffix-data.nomem').create(recursive: true);
       File db = File(DBHelper.getAccountBox().path!);
       exportedFile.writeAsBytesSync(db.readAsBytesSync());
       return true;
