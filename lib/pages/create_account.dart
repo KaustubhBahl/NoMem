@@ -305,6 +305,7 @@ class AddAccountState extends State<AddAccount> {
 
                         if (DBHelper().createAccount(domain, username,
                             int.parse(length), int.parse(version))) {
+                          selectedOption = '';
                           userKeyController.clear();
                           usernameController.clear();
                           lengthController.text = '12';
@@ -380,9 +381,6 @@ class AddAccountState extends State<AddAccount> {
                                             IconButton(
                                               onPressed: () {
                                                 Clipboard.setData(ClipboardData(text: password));
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  const SnackBar(content: Text("Password copied to clipboard")),
-                                                );
                                               },
                                               icon: const Icon(Icons.copy),
                                             ),

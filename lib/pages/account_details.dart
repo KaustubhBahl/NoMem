@@ -167,9 +167,6 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                       IconButton(
                                         onPressed: () {
                                           Clipboard.setData(ClipboardData(text: password));
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            const SnackBar(content: Text("Password copied to clipboard")),
-                                          );
                                         },
                                         icon: const Icon(Icons.copy),
                                       ),
