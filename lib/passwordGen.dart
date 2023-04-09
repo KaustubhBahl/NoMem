@@ -125,7 +125,7 @@ String passgen_v2(String str,int len)
     var digest = sha512.convert(bytes);
     String digestHex = '$digest';
     var len = int.parse(length);
-    final password = passgen(digestHex,len);
+    final password = passgen_v2(digestHex,len);
     return password;
   }
 }
