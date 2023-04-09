@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nomem/backup.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -6,7 +8,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(255, 251, 250, 1),
+      backgroundColor: const Color.fromRGBO(255, 251, 250, 1),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -39,9 +41,9 @@ class Home extends StatelessWidget {
                       elevation: MaterialStateProperty.all(12),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13, horizontal: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 12),
                       child: Row(
-                        children: [
+                        children: const[
                           Icon(Icons.add, color: Colors.black),
                           SizedBox(width: 10),
                           Text(
@@ -69,9 +71,9 @@ class Home extends StatelessWidget {
                       elevation: MaterialStateProperty.all(12),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13, horizontal: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 12),
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(
                             Icons.visibility_outlined,
                             color: Colors.black,
@@ -101,9 +103,9 @@ class Home extends StatelessWidget {
                       elevation: MaterialStateProperty.all(12),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13, horizontal: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 12),
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(
                             Icons.file_upload,
                             color: Colors.black,
@@ -120,7 +122,18 @@ class Home extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async{
+                      String res = await Export().export();
+                      Fluttertoast.showToast(
+                        msg: res,
+                        toastLength: Toast.LENGTH_LONG,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.black,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                    },
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
@@ -133,9 +146,9 @@ class Home extends StatelessWidget {
                       elevation: MaterialStateProperty.all(12),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13, horizontal: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 12),
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(
                             Icons.file_download,
                             color: Colors.black,
