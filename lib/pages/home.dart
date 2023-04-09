@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nomem/backup.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -6,7 +8,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(255, 251, 250, 1),
+      backgroundColor: const Color.fromRGBO(255, 251, 250, 1),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -33,15 +35,16 @@ class Home extends StatelessWidget {
                           borderRadius: BorderRadius.circular(22),
                         ),
                       ),
-                      backgroundColor:
-                      MaterialStateProperty.all(const Color.fromRGBO(232, 222, 248, 1)),
+                      backgroundColor: MaterialStateProperty.all(
+                          const Color.fromRGBO(232, 222, 248, 1)),
                       shadowColor: MaterialStateProperty.all(Colors.black),
                       elevation: MaterialStateProperty.all(12),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13, horizontal: 12),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 13, horizontal: 12),
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(Icons.add, color: Colors.black),
                           SizedBox(width: 10),
                           Text(
@@ -63,15 +66,16 @@ class Home extends StatelessWidget {
                           borderRadius: BorderRadius.circular(22),
                         ),
                       ),
-                      backgroundColor:
-                      MaterialStateProperty.all(const Color.fromRGBO(232, 222, 248, 1)),
+                      backgroundColor: MaterialStateProperty.all(
+                          const Color.fromRGBO(232, 222, 248, 1)),
                       shadowColor: MaterialStateProperty.all(Colors.black),
                       elevation: MaterialStateProperty.all(12),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13, horizontal: 12),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 13, horizontal: 12),
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(
                             Icons.visibility_outlined,
                             color: Colors.black,
@@ -88,22 +92,39 @@ class Home extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      var msg = '';
+                      if (await Import().import()) {
+                        msg = 'Data imported successfully from file';
+                      } else {
+                        msg = "Data wasn't imported as no valid file was selected";
+                      }
+                      Fluttertoast.showToast(
+                        msg: msg,
+                        toastLength: Toast.LENGTH_LONG,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.black,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                    },
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(22),
                         ),
                       ),
-                      backgroundColor:
-                      MaterialStateProperty.all(const Color.fromRGBO(232, 222, 248, 1)),
+                      backgroundColor: MaterialStateProperty.all(
+                          const Color.fromRGBO(232, 222, 248, 1)),
                       shadowColor: MaterialStateProperty.all(Colors.black),
                       elevation: MaterialStateProperty.all(12),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13, horizontal: 12),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 13, horizontal: 12),
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(
                             Icons.file_upload,
                             color: Colors.black,
@@ -120,22 +141,39 @@ class Home extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      var msg = '';
+                      if (await Export().export()) {
+                        msg = 'Data file exported to location successfully';
+                      } else {
+                        msg = "Data wasn't exported as no folder was selected";
+                      }
+                      Fluttertoast.showToast(
+                        msg: msg,
+                        toastLength: Toast.LENGTH_LONG,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.black,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                    },
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(22),
                         ),
                       ),
-                      backgroundColor:
-                      MaterialStateProperty.all(const Color.fromRGBO(232, 222, 248, 1)),
+                      backgroundColor: MaterialStateProperty.all(
+                          const Color.fromRGBO(232, 222, 248, 1)),
                       shadowColor: MaterialStateProperty.all(Colors.black),
                       elevation: MaterialStateProperty.all(12),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13, horizontal: 12),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 13, horizontal: 12),
                       child: Row(
-                        children: [
+                        children: const [
                           Icon(
                             Icons.file_download,
                             color: Colors.black,
