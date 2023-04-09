@@ -140,7 +140,58 @@ String passgen_v3(String str,int len)
   return password;
 }
   
+String passgen_v4(String str,int len)
+{
+  int j=0;
+  int sum=0;
+  while(j<str.length)
+  {
+    sum=sum+str[j].codeUnitAt(0);
+    j++;
+  }
+  int pos1,pos2,pos3,pos4;
   
+  var arr = [1,1,1,1,1];
+  int n=0;
+  int q=len;
+  int index;
+  
+  int k=0;
+  while(k<4)
+  {
+    j=0;
+    index=sum%q;
+    while(j<n && index>=arr[j])
+    {
+      j++;
+    }
+    index=index+j;
+    int repval=index;
+    n++;
+    while(j<n)
+    {
+      int x=repval;
+      repval=arr[j];
+      arr[j]=x;
+      j++;
+    }
+    q--;
+    k++;
+  }
+  pos1=arr[0];
+  pos2=arr[1];
+  pos3=arr[2];
+  pos4=arr[3];
+  print('$q\n$pos1  $pos2  $pos3  $pos4\n');
+  String password='';
+  j=0;
+  while(j<len)
+  {
+    password=password+modify(str[j].codeUnitAt(0),j,sum,pos1,pos2,pos3,pos4);
+    j++;
+  }
+  return password;
+}  
   
   
   
@@ -158,7 +209,7 @@ String passgen_v3(String str,int len)
     var digest = sha512.convert(bytes);
     String digestHex = '$digest';
     var len = int.parse(length);
-    final password = passgen_v3(digestHex,len);
+    final password = passgen_v4(digestHex,len);
     return password;
   }
 }
