@@ -303,7 +303,6 @@ class AddAccountState extends State<AddAccount> {
 
                         if (DBHelper().createAccount(domain, username,
                             int.parse(length), int.parse(version))) {
-                          selectedOption = '';
                           userKeyController.clear();
                           usernameController.clear();
                           lengthController.text = '12';

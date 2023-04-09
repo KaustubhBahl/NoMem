@@ -123,9 +123,15 @@ class Home extends StatelessWidget {
                   const SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: () async{
-                      String res = await Export().export();
+                      var msg = '';
+                      if(await Export().export()) {
+                        msg = 'Data file exported to location successfully';
+                      }
+                      else {
+                        msg = "Data wasn't exported as no folder was selected";
+                      }
                       Fluttertoast.showToast(
-                        msg: res,
+                        msg: msg,
                         toastLength: Toast.LENGTH_LONG,
                         gravity: ToastGravity.CENTER,
                         timeInSecForIosWeb: 1,
