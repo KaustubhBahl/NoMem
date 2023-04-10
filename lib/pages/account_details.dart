@@ -272,9 +272,9 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                                   var msg = '';
                                                   Navigator.of(context).pop();
                                                   if (await Export().export()) {
-                                                    msg = 'Data file exported to location successfully';
+                                                    msg = 'Data file exported to Download folder successfully';
                                                   } else {
-                                                    msg = "Data wasn't exported as no folder was selected";
+                                                    msg = "Data wasn't exported as Download folder couldn't be opened";
                                                   }
                                                   Fluttertoast.
                                                   showToast(
@@ -328,10 +328,10 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                 const SizedBox(width: 16),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () async {
+                    onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (BuildContext context) {
+                        builder: (BuildContext dialogContext) {
                           return Theme(
                             data: ThemeData(
                               dialogTheme: DialogTheme(
@@ -349,6 +349,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                               actions: [
                                 TextButton(
                                   onPressed: () async {
+                                    Navigator.of(dialogContext).pop();
                                     Navigator.of(context).pop();
                                     DBHelper().deleteAccount(
                                         widget.account.domain,
@@ -365,17 +366,12 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                     );
                                     showDialog(
                                       context: context,
-                                      builder: (BuildContext context) {
-                                        return Theme(
-                                          data: ThemeData(
-                                            dialogTheme: DialogTheme(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(20),
-                                              ),
-                                              backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
+                                      builder: (BuildContext dialogContext) =>
+                                          AlertDialog(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(20),
                                             ),
-                                          ),
-                                          child: AlertDialog(
+                                            backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
                                             title: const Text('Export recommended'),
                                             content: const Text(
                                               'An account has been deleted. Would you like to export the accounts onto your system?',
@@ -383,13 +379,12 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                             actions: [
                                               TextButton(
                                                 onPressed: () async {
-                                                  Navigator.of(context).pop();
+                                                  Navigator.of(dialogContext).pop();
                                                   var msg = '';
-                                                  Navigator.of(context).pop();
                                                   if (await Export().export()) {
-                                                    msg = 'Data file exported to location successfully';
+                                                    msg = 'Data file exported to Download folder successfully';
                                                   } else {
-                                                    msg = "Data wasn't exported as no folder was selected";
+                                                    msg = "Data wasn't exported as Download folder couldn't be opened";
                                                   }
                                                   Fluttertoast.
                                                   showToast(
@@ -406,21 +401,18 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                               ),
                                               TextButton(
                                                 onPressed: () {
-                                                  Navigator.of(context).pop();
+                                                  Navigator.of(dialogContext).pop();
                                                 },
                                                 child: const Text('No'),
                                               ),
                                             ],
-                                          ),
-                                        );
-                                      },
-                                    );
+                                          ));
                                   },
                                   child: const Text('Yes'),
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.of(context).pop();
+                                    Navigator.of(dialogContext).pop();
                                   },
                                   child: const Text('No'),
                                 ),

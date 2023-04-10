@@ -74,7 +74,7 @@ class _MyAppLockState extends State<MyAppLock> {
         _authorized = 'Authenticating';
       });
       authenticated = await auth.authenticate(
-        localizedReason: 'Unlock the app with face recognition, fingerprint it to proceed',
+        localizedReason: 'Unlock the app to proceed',
         options: const AuthenticationOptions(
           stickyAuth: true,
         ),
