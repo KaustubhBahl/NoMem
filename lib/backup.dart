@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:nomem/dbhelper.dart';
 import 'package:nomem/model/account.dart';
@@ -11,15 +12,14 @@ class Export {
     final DateTime now = DateTime.now();
     final filenameSuffix =
         '${now.year}-${now.month}-${now.day}-${now.hour}-${now.minute}-${now.second}';
-    final dirPath = await FilePicker.platform
-        .getDirectoryPath(dialogTitle: 'Select folder to export to: ');
-    if (dirPath != null) {
-      final exportedFile = await File('$dirPath/$filenameSuffix-data.nomem').create(recursive: true);
-      File db = File(DBHelper.getAccountBox().path!);
-      exportedFile.writeAsBytesSync(db.readAsBytesSync());
-      return true;
+    try {
+      File('storage/emulated/0/Download/$filenameSuffix-data.nomem').createSync(recursive: true);
+    } catch (e) {
+      return false;
     }
-    return false;
+    File db = File(DBHelper.getAccountBox().path!);
+    File('storage/emulated/0/Download/$filenameSuffix-data.nomem').writeAsBytesSync(db.readAsBytesSync(), flush: true);
+    return true;
   }
 }
 

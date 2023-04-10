@@ -144,9 +144,9 @@ class Home extends StatelessWidget {
                     onPressed: () async {
                       var msg = '';
                       if (await Export().export()) {
-                        msg = 'Data file exported to location successfully';
+                        msg = 'Data file exported to Download folder successfully';
                       } else {
-                        msg = "Data wasn't exported as no folder was selected";
+                        msg = "Data wasn't exported as couldn't open Download folder";
                       }
                       Fluttertoast.showToast(
                         msg: msg,
