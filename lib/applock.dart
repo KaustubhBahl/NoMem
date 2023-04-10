@@ -102,8 +102,7 @@ class _MyAppLockState extends State<MyAppLock> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
           body: _isAuthenticating ? const SizedBox.shrink() : Theme(
             data: ThemeData(
               dialogTheme: DialogTheme(
@@ -134,8 +133,7 @@ class _MyAppLockState extends State<MyAppLock> {
               ],
             ),
           )
-      ),
-    );
+      );
   }
 }
 

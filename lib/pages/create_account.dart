@@ -3,6 +3,7 @@ import 'package:nomem/dbhelper.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nomem/passwordGen.dart';
 import 'package:flutter/services.dart';
+import 'package:nomem/backup.dart';
 
 class AddAccount extends StatefulWidget {
   const AddAccount({super.key});
@@ -311,7 +312,7 @@ class AddAccountState extends State<AddAccount> {
                           Fluttertoast.showToast(
                               msg: 'Password for the account already exists',
                               toastLength: Toast.LENGTH_LONG,
-                              gravity: ToastGravity.CENTER,
+                              gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 1,
                               backgroundColor: Colors.black,
                               textColor: Colors.white,
@@ -323,7 +324,7 @@ class AddAccountState extends State<AddAccount> {
                           Fluttertoast.showToast(
                               msg: 'The account has been created.',
                               toastLength: Toast.LENGTH_LONG,
-                              gravity: ToastGravity.CENTER,
+                              gravity: ToastGravity.BOTTOM,
                               timeInSecForIosWeb: 1,
                               backgroundColor: Colors.black,
                               textColor: Colors.white,
@@ -388,6 +389,57 @@ class AddAccountState extends State<AddAccount> {
                                       TextButton(
                                         onPressed: () {
                                           Navigator.of(context).pop();
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return Theme(
+                                                data: ThemeData(
+                                                  dialogTheme: DialogTheme(
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20),
+                                                    ),
+                                                    backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
+                                                  ),
+                                                ),
+                                                child: AlertDialog(
+                                                  title: const Text('Export recommended'),
+                                                  content: const Text(
+                                                    'A new account have been added. Would you like to export the accounts onto your system?',
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () async {
+                                                        var msg = '';
+                                                        Navigator.of(context).pop();
+                                                        if (await Export().export()) {
+                                                          msg = 'Data file exported to location successfully';
+                                                        } else {
+                                                          msg = "Data wasn't exported as no folder was selected";
+                                                        }
+                                                        Fluttertoast.
+                                                        showToast(
+                                                          msg: msg,
+                                                          toastLength: Toast.LENGTH_LONG,
+                                                          gravity: ToastGravity.BOTTOM,
+                                                          timeInSecForIosWeb: 1,
+                                                          backgroundColor: Colors.black,
+                                                          textColor: Colors.white,
+                                                          fontSize: 16.0,
+                                                        );
+                                                      },
+                                                      child: const Text('Yes'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context).pop();
+                                                      },
+                                                      child: const Text('No'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
                                         },
                                         child: const Text('Close'),
                                       ),

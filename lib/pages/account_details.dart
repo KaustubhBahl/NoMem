@@ -4,6 +4,7 @@ import 'package:nomem/passwordGen.dart';
 import 'package:nomem/dbhelper.dart';
 import 'package:nomem/model/account.dart';
 import 'package:flutter/services.dart';
+import 'package:nomem/backup.dart';
 
 class AccountDetailsPage extends StatefulWidget {
   final Account account;
@@ -177,6 +178,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
+
                                   },
                                   child: const Text('Close'),
                                 ),
@@ -241,11 +243,62 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                     Fluttertoast.showToast(
                                       msg: "The password has been updated successfully",
                                       toastLength: Toast.LENGTH_LONG,
-                                      gravity: ToastGravity.CENTER,
+                                      gravity: ToastGravity.BOTTOM,
                                       timeInSecForIosWeb: 1,
                                       backgroundColor: Colors.black,
                                       textColor: Colors.white,
                                       fontSize: 16.0,
+                                    );
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Theme(
+                                          data: ThemeData(
+                                            dialogTheme: DialogTheme(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(20),
+                                              ),
+                                              backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
+                                            ),
+                                          ),
+                                          child: AlertDialog(
+                                            title: const Text('Export recommended'),
+                                            content: const Text(
+                                              'An account\'s version has been updated. Do you want to export the accounts onto your system?',
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () async {
+                                                  var msg = '';
+                                                  Navigator.of(context).pop();
+                                                  if (await Export().export()) {
+                                                    msg = 'Data file exported to location successfully';
+                                                  } else {
+                                                    msg = "Data wasn't exported as no folder was selected";
+                                                  }
+                                                  Fluttertoast.
+                                                  showToast(
+                                                    msg: msg,
+                                                    toastLength: Toast.LENGTH_LONG,
+                                                    gravity: ToastGravity.BOTTOM,
+                                                    timeInSecForIosWeb: 1,
+                                                    backgroundColor: Colors.black,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0,
+                                                  );
+                                                },
+                                                child: const Text('Yes'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('No'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
                                     );
                                   },
                                   child: const Text('Yes'),
@@ -298,18 +351,70 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                                   onPressed: () async {
                                     Navigator.of(context).pop();
                                     DBHelper().deleteAccount(
-                                      widget.account.domain,
-                                      widget.account.username);
-                                    Navigator.of(context).pop();
+                                        widget.account.domain,
+                                        widget.account.username);
                                     Fluttertoast.showToast(
                                         msg:
                                         "The account has been deleted successfully",
                                         toastLength: Toast.LENGTH_LONG,
-                                        gravity: ToastGravity.CENTER,
+                                        gravity: ToastGravity.BOTTOM,
                                         timeInSecForIosWeb: 1,
                                         backgroundColor: Colors.black,
                                         textColor: Colors.white,
-                                        fontSize: 16.0);
+                                        fontSize: 16.0
+                                    );
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Theme(
+                                          data: ThemeData(
+                                            dialogTheme: DialogTheme(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(20),
+                                              ),
+                                              backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
+                                            ),
+                                          ),
+                                          child: AlertDialog(
+                                            title: const Text('Export recommended'),
+                                            content: const Text(
+                                              'An account has been deleted. Would you like to export the accounts onto your system?',
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () async {
+                                                  Navigator.of(context).pop();
+                                                  var msg = '';
+                                                  Navigator.of(context).pop();
+                                                  if (await Export().export()) {
+                                                    msg = 'Data file exported to location successfully';
+                                                  } else {
+                                                    msg = "Data wasn't exported as no folder was selected";
+                                                  }
+                                                  Fluttertoast.
+                                                  showToast(
+                                                    msg: msg,
+                                                    toastLength: Toast.LENGTH_LONG,
+                                                    gravity: ToastGravity.BOTTOM,
+                                                    timeInSecForIosWeb: 1,
+                                                    backgroundColor: Colors.black,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0,
+                                                  );
+                                                },
+                                                child: const Text('Yes'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text('No'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
                                   },
                                   child: const Text('Yes'),
                                 ),

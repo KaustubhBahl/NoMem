@@ -102,7 +102,7 @@ class Home extends StatelessWidget {
                       Fluttertoast.showToast(
                         msg: msg,
                         toastLength: Toast.LENGTH_LONG,
-                        gravity: ToastGravity.CENTER,
+                        gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 1,
                         backgroundColor: Colors.black,
                         textColor: Colors.white,
@@ -151,7 +151,7 @@ class Home extends StatelessWidget {
                       Fluttertoast.showToast(
                         msg: msg,
                         toastLength: Toast.LENGTH_LONG,
-                        gravity: ToastGravity.CENTER,
+                        gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 1,
                         backgroundColor: Colors.black,
                         textColor: Colors.white,
