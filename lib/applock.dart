@@ -36,9 +36,8 @@ class _MyAppLockState extends State<MyAppLock> {
     late bool canCheckBiometrics;
     try {
       canCheckBiometrics = await auth.canCheckBiometrics;
-    } on PlatformException catch (e) {
+    } on PlatformException {
       canCheckBiometrics = false;
-      print(e);
     }
     if (!mounted) {
       return;
@@ -53,9 +52,8 @@ class _MyAppLockState extends State<MyAppLock> {
     late List<BiometricType> availableBiometrics;
     try {
       availableBiometrics = await auth.getAvailableBiometrics();
-    } on PlatformException catch (e) {
+    } on PlatformException {
       availableBiometrics = <BiometricType>[];
-      print(e);
     }
     if (!mounted) {
       return;
@@ -83,7 +81,6 @@ class _MyAppLockState extends State<MyAppLock> {
         _isAuthenticating = false;
       });
     } on PlatformException catch (e) {
-      print(e);
       setState(() {
         _isAuthenticating = false;
         _authorized = 'Error - ${e.message}';
@@ -115,7 +112,7 @@ class _MyAppLockState extends State<MyAppLock> {
             child: AlertDialog(
               title: const Text('Authentication Required'),
               content: const Text(
-                'Please unlock the app to proceed',
+                'Please unlock the app to proceed. Set up app lock first if required.',
               ),
               actions: [
                 TextButton(
@@ -128,7 +125,7 @@ class _MyAppLockState extends State<MyAppLock> {
                   onPressed: () {
                     SystemNavigator.pop();
                   },
-                  child: const Text('Cancel'),
+                  child: const Text('Exit'),
                 ),
               ],
             ),

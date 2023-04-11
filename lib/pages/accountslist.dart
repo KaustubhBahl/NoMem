@@ -246,9 +246,21 @@ class _AccountsListState extends State<AccountsList> {
                 setState(() {
                   ascendingSort = !(ascendingSort);
                   if(ascendingSort) {
-                    accounts.sort((a, b) => a.domain.compareTo(b.domain));
+                    accounts.sort((a, b) {
+                      if(a.domain.toLowerCase() == b.domain.toLowerCase()) {
+                        return a.username.toLowerCase().compareTo(b.username.toLowerCase());
+                      } else {
+                        return a.domain.toLowerCase().compareTo(b.domain.toLowerCase());
+                      }
+                    });
                   } else {
-                    accounts.sort((a, b) => b.domain.compareTo(a.domain));
+                    accounts.sort((a, b) {
+                      if(a.domain.toLowerCase() == b.domain.toLowerCase()) {
+                        return b.username.toLowerCase().compareTo(a.username.toLowerCase());
+                      } else {
+                        return b.domain.toLowerCase().compareTo(a.domain.toLowerCase());
+                      }
+                    });
                   }
                 });
               },
