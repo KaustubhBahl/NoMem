@@ -373,7 +373,12 @@ class AddAccountState extends State<AddAccount> {
                                             Expanded(
                                               child: Align(
                                                 alignment: Alignment.center,
-                                                child: Text(password),
+                                                child: Text(
+                                                  password,
+                                                  style: TextStyle(
+                                                    fontFamily: 'Inconsolata', fontSize:20, fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             IconButton(
