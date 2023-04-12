@@ -168,6 +168,20 @@ class AccountsList extends StatefulWidget {
 class _AccountsListState extends State<AccountsList> {
   List<Account> accounts = DBHelper().fetchAllAccounts();
 
+  void precacheImages(BuildContext context) {
+    precacheImage(const AssetImage('assets/images/amazon-listicon.png'),context);
+    precacheImage(const AssetImage('assets/images/facebook-listicon.png'),context);
+    precacheImage(const AssetImage('assets/images/twitter-listicon.png'),context);
+    precacheImage(const AssetImage('assets/images/sbi-listicon.png'),context);
+    precacheImage(const AssetImage('assets/images/instagram-listicon.png'),context);
+    precacheImage(const AssetImage('assets/images/linkedin-listicon.png'),context);
+    precacheImage(const AssetImage('assets/images/eduserver-listicon.png'),context);
+    precacheImage(const AssetImage('assets/images/hdfc-listicon.png'),context);
+    precacheImage(const AssetImage('assets/images/icici-listicon.png'),context);
+    precacheImage(const AssetImage('assets/images/aternos-listicon.png'),context);
+    precacheImage(const AssetImage('assets/images/default-listicon.png'),context);
+  }
+
   Widget accountTemplate(account) {
     return Container(
       margin: const EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 0),
@@ -221,6 +235,7 @@ class _AccountsListState extends State<AccountsList> {
 
   @override
   Widget build(BuildContext context) {
+    precacheImages(context);
     return Scaffold(
         backgroundColor: const Color.fromRGBO(255, 251, 250, 1),
         appBar: AppBar(

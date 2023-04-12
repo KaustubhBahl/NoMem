@@ -13,14 +13,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2270c96-b9ce-42ae-9071-3149db7dcc15" name="Changes" comment="fix delete account">
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/version" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/applock.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/applock.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/eduserver-listicon.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/instagram-listicon.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/twitter-listicon.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/backup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/backup.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/pages/accountslist.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/accountslist.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/create_account.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/create_account.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pages/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/home.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +69,9 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2NbLjAVKirbP6Myzzc3cK0YtgNW" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -421,7 +433,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fixing git repo" />

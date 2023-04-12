@@ -4,9 +4,9 @@ import 'package:nomem/backup.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
-
   @override
   Widget build(BuildContext context) {
+    precacheImage(const AssetImage('assets/images/nomem_home_logo.jpeg'),context);
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 251, 250, 1),
       body: SingleChildScrollView(
@@ -93,21 +93,18 @@ class Home extends StatelessWidget {
                   const SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: () async {
-                      var msg = '';
-                      if (await Import().import()) {
-                        msg = 'Data imported successfully from file';
-                      } else {
-                        msg = "Data wasn't imported as no valid file was selected";
+                      var msg = await Import().import();
+                      if(msg != 'Cancelled') {
+                        Fluttertoast.showToast(
+                          msg: msg,
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.black,
+                          textColor: Colors.white,
+                          fontSize: 16.0,
+                        );
                       }
-                      Fluttertoast.showToast(
-                        msg: msg,
-                        toastLength: Toast.LENGTH_LONG,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.black,
-                        textColor: Colors.white,
-                        fontSize: 16.0,
-                      );
                     },
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(

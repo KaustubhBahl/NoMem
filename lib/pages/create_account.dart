@@ -91,6 +91,7 @@ class AddAccountState extends State<AddAccount> {
                             labelText: 'Domain',
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                             hintText: "Google",
+                            hintStyle: TextStyle(color: Colors.grey[350]),
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(
                                 color: Colors.black,
@@ -158,8 +159,8 @@ class AddAccountState extends State<AddAccount> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                             hintText: "example@abc.com",
+                            hintStyle: TextStyle(color: Colors.grey[350]),
                             errorMaxLines: 2,
-                            // hintStyle: const TextStyle(fontStyle:FontStyle.italic ),
                           ),
                           validator: (value) {
                             if (value == '') {
@@ -191,8 +192,6 @@ class AddAccountState extends State<AddAccount> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                             errorMaxLines: 2,
-                            hintText: "1",
-                            // hintStyle: const TextStyle(fontStyle:FontStyle.italic ),
                           ),
                           validator: (value) {
                             if (value == null ||
@@ -225,9 +224,7 @@ class AddAccountState extends State<AddAccount> {
                               ),
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            hintText: "12",
                             errorMaxLines: 2,
-                            // hintStyle: const TextStyle(fontStyle:FontStyle.italic ),
                           ),
                           validator: (value) {
                             if (value == null ||
@@ -263,7 +260,7 @@ class AddAccountState extends State<AddAccount> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                             hintText: "eg. ab765418",
-                            // hintStyle: const TextStyle(fontStyle:FontStyle.italic ),
+                            hintStyle: TextStyle(color: Colors.grey[350]),
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _obscureText ? Icons.visibility_off : Icons.visibility,
@@ -375,7 +372,7 @@ class AddAccountState extends State<AddAccount> {
                                                 alignment: Alignment.center,
                                                 child: Text(
                                                   password,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     fontFamily: 'Inconsolata', fontSize:20, fontWeight: FontWeight.bold,
                                                   ),
                                                 ),

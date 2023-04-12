@@ -17,52 +17,58 @@ class Export {
     } catch (e) {
       return false;
     }
-    File db = File(DBHelper.getAccountBox().path!);
-    File('storage/emulated/0/Download/$filenameSuffix-data.nomem').writeAsBytesSync(db.readAsBytesSync(), flush: true);
+    List<Account> accounts = DBHelper().fetchAllAccounts();
+    for (Account account in accounts) {
+      File('storage/emulated/0/Download/$filenameSuffix-data.nomem').writeAsStringSync('${account.domain}\n${account.username}\n${account.length}\n${account.version}\n${account.icon}\n',mode: FileMode.append);
+    }
     return true;
   }
 }
 
 class Import {
-  Future<bool> import() async {
+  Future<String> import() async {
     FilePickerResult? result =
         await FilePicker.platform.pickFiles(type: FileType.any);
-    if (result == null ||
-        result.files.single.name.endsWith('.nomem') == false) {
-      return false;
+    if (result == null) {
+      return 'Cancelled';
+    }
+    else if(result.files.single.name.endsWith('.nomem') == false) {
+      return "Data wasn't imported as selected file format is unsupported";
     } else {
-      const secureStorage = FlutterSecureStorage();
-      final key = await secureStorage.read(key: 'key');
-      final encryptionKeyUint8List = base64Url.decode(key!);
-      Box<Account> tempDB = await Hive.openBox<Account>('temp',
-          encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
-      final tempDBPath = tempDB.path;
-      await tempDB.close();
-      File(result.files.single.path!).copySync(tempDBPath!);
-      tempDB = await Hive.openBox<Account>('temp', encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
       final List<Account> currentAccounts = DBHelper().fetchAllAccounts();
-      final List<Account> importingAccounts = tempDB.values.toList();
+      List<String> content = File(result.files.single.path!).readAsLinesSync();
+      if(content.length%5 != 0) {
+        return "Data wasn't imported as the selected file is corrupted";
+      }
 
-      for (var importingAccount in importingAccounts) {
+      List<String> icons = ['default-listicon.png','aternos-listicon.png','icici-listicon.png','hdfc-listicon.png','eduserver-listicon.png','linkedin-listicon.png','instagram-listicon.png','sbi-listicon.png','twitter-listicon.png','facebook-listicon.png','google-listicon.png'];
+      for (int i=0; i<content.length;i+=5) {
         bool flag = false;
-        for (var currentAccount in currentAccounts) {
-          if (importingAccount.domain == currentAccount.domain &&
-              importingAccount.username == currentAccount.domain) {
-            flag = true;
-            break;
+        if(content[i].isNotEmpty && content[i+1].isNotEmpty && int.tryParse(content[i+2]) != null && int.tryParse(content[i+3]) != null && content[i+4].isNotEmpty && icons.contains(content[i+4])) {
+          for (var currentAccount in currentAccounts) {
+            if (content[i] == currentAccount.domain &&
+                content[i+1] == currentAccount.domain) {
+              flag = true;
+              break;
+            }
           }
+          if (!flag) {
+            DBHelper().createAccount(
+                content[i],
+                content[i+1],
+                int.parse(content[i+2]),
+                int.parse(content[i+3]));
+            currentAccounts.add(
+                Account() // create the required account record
+                  ..domain = content[i]
+                  ..username = content[i+1]
+                  ..length = int.parse(content[i+2])
+                  ..version = int.parse(content[i+3])
+                  ..icon = content[i+4]);
         }
-        if (!flag) {
-          DBHelper().createAccount(
-              importingAccount.domain,
-              importingAccount.username,
-              importingAccount.length,
-              importingAccount.version);
-          currentAccounts.add(importingAccount);
         }
       }
-      tempDB.deleteFromDisk();
-      return true;
+      return 'All the valid data was imported successfully';
     }
   }
 }
