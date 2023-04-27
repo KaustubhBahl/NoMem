@@ -18,6 +18,9 @@ class AddAccountState extends State<AddAccount> {
   final versionController = TextEditingController(text: '1');
   final userKeyController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController domainController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  final GlobalKey _autocompleteKey = GlobalKey();
   bool _obscureText = true;
   String? selectedOption;
 
@@ -27,6 +30,7 @@ class AddAccountState extends State<AddAccount> {
     lengthController.dispose();
     versionController.dispose();
     userKeyController.dispose();
+    domainController.dispose();
     super.dispose();
   }
 
@@ -55,7 +59,10 @@ class AddAccountState extends State<AddAccount> {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                    child: Autocomplete<String>(
+                    child: RawAutocomplete<String>(
+                      focusNode: _focusNode,
+                      key: _autocompleteKey,
+                      textEditingController: domainController,
                       optionsBuilder: (TextEditingValue textEditingValue) {
                         // Use your own data source here to generate the autocomplete options
                         return [
@@ -114,10 +121,12 @@ class AddAccountState extends State<AddAccount> {
                           alignment: Alignment.topLeft,
                           child: Material(
                             elevation: 4.0,
-                            child: SizedBox(
-                              height: 200.0,
-                              width: 293.0,
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxHeight: 200,maxWidth:293,minWidth:293),
+                              // height: 200.0,
+                              // width: 293.0,
                               child: ListView.builder(
+                                shrinkWrap: true,
                                 padding: EdgeInsets.zero,
                                 itemCount: options.length,
                                 itemBuilder: (BuildContext context, int index) {
@@ -305,6 +314,7 @@ class AddAccountState extends State<AddAccount> {
                           usernameController.clear();
                           lengthController.text = '12';
                           versionController.text = '1';
+                          domainController.clear();
                         } else {
                           Fluttertoast.showToast(
                               msg: 'Password for the account already exists',
