@@ -138,12 +138,12 @@ class AddAccountState extends State<AddAccount> {
                   ),
                   // const SizedBox(height: 10),
                   const Text(
-                    "e.g. 'Facebook', 'Twitter' ,etc. No need to enter complete URL.",
+                    "e.g. 'Facebook', 'Twitter', etc. No need to enter the complete URL.",
                     style: TextStyle(
                       fontSize: 11,
                       color: Color(0xFF938F99),
                     ),
-                    textAlign: TextAlign.justify,
+                    textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
                   Padding(
@@ -203,7 +203,7 @@ class AddAccountState extends State<AddAccount> {
                           },
                           controller: versionController)),
                   const Text(
-                    "The version number of current password. You \n can update this later to update the password.",
+                    "When you update the password, this value increases. You may leave this as 1.",
                     style: TextStyle(
                       fontSize: 11,
                       color: Color(0xFF938F99),
@@ -326,132 +326,224 @@ class AddAccountState extends State<AddAccount> {
                               backgroundColor: Colors.black,
                               textColor: Colors.white,
                               fontSize: 16.0);
-                          return;
-                        }
-
-                        String password = PasswordGen(
-                                domain: domain,
-                                username: username,
-                                length: length,
-                                version: version,
-                                userKey: userKey)
-                            .generatePassword();
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Theme(
-                              data: ThemeData(
-                                dialogTheme: DialogTheme(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Theme(
+                                data: ThemeData(
+                                  dialogTheme: DialogTheme(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius
+                                          .circular(20),
+                                    ),
+                                    backgroundColor: const Color
+                                        .fromRGBO(
+                                        255, 255, 245, 1),
                                   ),
-                                  backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
                                 ),
-                              ),
-                              child: AlertDialog(
-                                title: const Text(
-                                  'The account details have been stored. Tap the \nicon to copy',
-                                  textAlign: TextAlign.center,
+                                child: AlertDialog(
+                                  title: const Text(
+                                      'Export recommended'),
+                                  content: const Text(
+                                    'A new account have been added. Would you like to export the accounts onto your system?',
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () async {
+                                        var msg = '';
+                                        Navigator.of(context)
+                                            .pop();
+                                        if (await Export()
+                                            .export()) {
+                                          msg =
+                                          'Data file exported to Download folder successfully';
+                                        } else {
+                                          msg =
+                                          "Data wasn't exported as Download folder couldn't be opened";
+                                        }
+                                        Fluttertoast.
+                                        showToast(
+                                          msg: msg,
+                                          toastLength: Toast
+                                              .LENGTH_LONG,
+                                          gravity: ToastGravity
+                                              .BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors
+                                              .black,
+                                          textColor: Colors
+                                              .white,
+                                          fontSize: 16.0,
+                                        );
+                                      },
+                                      child: const Text(
+                                          'Yes'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop();
+                                      },
+                                      child: const Text('No'),
+                                    ),
+                                  ],
                                 ),
-                                content: Container(
-                                  width: MediaQuery.of(context).size.width * 0.7,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.grey),
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Align(
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  password,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'Inconsolata', fontSize:20, fontWeight: FontWeight.bold,
+                              );
+                            },
+                          );
+                        }
+                        else {
+                          String password = PasswordGen(
+                              domain: domain,
+                              username: username,
+                              length: length,
+                              version: version,
+                              userKey: userKey)
+                              .generatePassword();
+
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Theme(
+                                data: ThemeData(
+                                  dialogTheme: DialogTheme(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    backgroundColor: const Color.fromRGBO(
+                                        255, 255, 245, 1),
+                                  ),
+                                ),
+                                child: AlertDialog(
+                                  title: const Text(
+                                    'The account details have been stored. Tap the \nicon to copy',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  content: Container(
+                                    width: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width * 0.7,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.grey),
+                                            borderRadius: BorderRadius.circular(
+                                                10),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    password,
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Inconsolata',
+                                                      fontSize: 20,
+                                                      fontWeight: FontWeight
+                                                          .bold,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            IconButton(
-                                              onPressed: () {
-                                                Clipboard.setData(ClipboardData(text: password));
-                                              },
-                                              icon: const Icon(Icons.copy),
-                                            ),
-                                          ],
+                                              IconButton(
+                                                onPressed: () {
+                                                  Clipboard.setData(
+                                                      ClipboardData(
+                                                          text: password));
+                                                },
+                                                icon: const Icon(Icons.copy),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(height: 16),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return Theme(
-                                                data: ThemeData(
-                                                  dialogTheme: DialogTheme(
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(20),
+                                        const SizedBox(height: 16),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return Theme(
+                                                  data: ThemeData(
+                                                    dialogTheme: DialogTheme(
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius
+                                                            .circular(20),
+                                                      ),
+                                                      backgroundColor: const Color
+                                                          .fromRGBO(
+                                                          255, 255, 245, 1),
                                                     ),
-                                                    backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
                                                   ),
-                                                ),
-                                                child: AlertDialog(
-                                                  title: const Text('Export recommended'),
-                                                  content: const Text(
-                                                    'A new account have been added. Would you like to export the accounts onto your system?',
+                                                  child: AlertDialog(
+                                                    title: const Text(
+                                                        'Export recommended'),
+                                                    content: const Text(
+                                                      'A new account have been added. Would you like to export the accounts onto your system?',
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () async {
+                                                          var msg = '';
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          if (await Export()
+                                                              .export()) {
+                                                            msg =
+                                                            'Data file exported to Download folder successfully';
+                                                          } else {
+                                                            msg =
+                                                            "Data wasn't exported as Download folder couldn't be opened";
+                                                          }
+                                                          Fluttertoast.
+                                                          showToast(
+                                                            msg: msg,
+                                                            toastLength: Toast
+                                                                .LENGTH_LONG,
+                                                            gravity: ToastGravity
+                                                                .BOTTOM,
+                                                            timeInSecForIosWeb: 1,
+                                                            backgroundColor: Colors
+                                                                .black,
+                                                            textColor: Colors
+                                                                .white,
+                                                            fontSize: 16.0,
+                                                          );
+                                                        },
+                                                        child: const Text(
+                                                            'Yes'),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: const Text('No'),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () async {
-                                                        var msg = '';
-                                                        Navigator.of(context).pop();
-                                                        if (await Export().export()) {
-                                                          msg = 'Data file exported to Download folder successfully';
-                                                        } else {
-                                                          msg = "Data wasn't exported as Download folder couldn't be opened";
-                                                        }
-                                                        Fluttertoast.
-                                                        showToast(
-                                                          msg: msg,
-                                                          toastLength: Toast.LENGTH_LONG,
-                                                          gravity: ToastGravity.BOTTOM,
-                                                          timeInSecForIosWeb: 1,
-                                                          backgroundColor: Colors.black,
-                                                          textColor: Colors.white,
-                                                          fontSize: 16.0,
-                                                        );
-                                                      },
-                                                      child: const Text('Yes'),
-                                                    ),
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                      child: const Text('No'),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: const Text('Close'),
-                                      ),
-                                    ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: const Text('Close'),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
-                        );
+                              );
+                            },
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         primary: const Color.fromRGBO(232, 222, 248, 1),

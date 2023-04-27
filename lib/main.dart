@@ -27,6 +27,7 @@ void main() async {
   Hive.registerAdapter(AccountAdapter());
   await Hive.openBox<Account>('accounts', encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
   runApp(AppLock(builder: (arg) => const MyApp(),lockScreen: const MyAppLock(),backgroundLockLatency: const Duration(seconds: 90)));
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
