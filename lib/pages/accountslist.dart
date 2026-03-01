@@ -1,159 +1,99 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:nomem/pages/account_details.dart';
 import 'package:nomem/model/account.dart';
 import 'package:nomem/dbhelper.dart';
-import 'package:hive/hive.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
-
   final List<Account> accountsList;
   CustomSearchDelegate(this.accountsList);
 
-// first overwrite to
-// clear the search text
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
-        onPressed: () {
-          query = '';
-        },
+        onPressed: () => query = '',
         icon: const Icon(Icons.clear),
       ),
     ];
   }
 
-// second overwrite to pop out of search menu
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-      onPressed: () {
-        close(context, null);
-      },
+      onPressed: () => close(context, null),
       icon: const Icon(Icons.arrow_back),
     );
   }
 
-// third overwrite to show query result
-  @override
-  Widget buildResults(BuildContext context) {
-    List<Account> matchQuery = [];
-    for (var fruit in accountsList) {
-      if (fruit.domain.toLowerCase().contains(query.toLowerCase()) ||
-          fruit.username.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return Container(
-          margin: const EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 0),
-          child: Card(
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                  color: Color.fromRGBO(103, 80, 164, 0.05),
-                ),
-                borderRadius: BorderRadius.circular(15.0), //<-- SEE HERE
+  List<Account> _getMatches() {
+    return accountsList.where((account) {
+      return account.domain.toLowerCase().contains(query.toLowerCase()) ||
+          account.username.toLowerCase().contains(query.toLowerCase());
+    }).toList();
+  }
+
+  Widget _buildAccountTile(BuildContext context, Account result) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Container(
+      margin: const EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 0),
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        color: colorScheme.surfaceVariant,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(15.0),
+          onTap: () {
+            close(context, null);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AccountDetailsPage(account: result),
               ),
-              child: TextButton(
-                onPressed: () {
-                  close(context, null);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              AccountDetailsPage(account: result)));
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      const Color.fromRGBO(103, 80, 164, 0.05)),
-                ),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      ListTile(
-                          leading: Image(
-                            image: AssetImage('assets/images/${result.icon}'),
-                          ),
-                          title: Text(result.domain,
-                              style: const TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.black,
-                              )),
-                          subtitle: Text(result.username,
-                              style: const TextStyle(
-                                  fontSize: 12.0, color: Colors.black)))
-                    ]),
-              )),
-        );
-      },
+            );
+          },
+          child: ListTile(
+            leading: Image(
+              image: AssetImage('assets/images/${result.icon}'),
+              width: 40,
+              height: 40,
+            ),
+            title: Text(
+              result.domain,
+              style: TextStyle(
+                fontSize: 16.0,
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ),
+            subtitle: Text(
+              result.username,
+              style: TextStyle(
+                fontSize: 12.0,
+                color: colorScheme.onSurfaceVariant.withOpacity(0.7),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
-// last overwrite to show the
-// querying process at the runtime
+  @override
+  Widget buildResults(BuildContext context) {
+    final matches = _getMatches();
+    return ListView.builder(
+      itemCount: matches.length,
+      itemBuilder: (context, index) => _buildAccountTile(context, matches[index]),
+    );
+  }
+
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<Account> matchQuery = [];
-    for (var fruit in accountsList) {
-      if (fruit.domain.toLowerCase().contains(query.toLowerCase()) ||
-          fruit.username.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
+    final matches = _getMatches();
     return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return Container(
-          margin: const EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 0),
-          child: Card(
-              elevation: 3,
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                  color: Color.fromRGBO(103, 80, 164, 0.05),
-                ),
-                borderRadius: BorderRadius.circular(15.0), //<-- SEE HERE
-              ),
-              child: TextButton(
-                onPressed: () {
-                  close(context, null);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              AccountDetailsPage(account:result)));
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      const Color.fromRGBO(103, 80, 164, 0.05)),
-                  //   // shadowColor: MaterialStateProperty.all(
-                  //     const Color.fromRGBO(255, 255, 255, 1)),
-                ),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      ListTile(
-                          leading: Image(
-                            image: AssetImage('assets/images/${result.icon}'),
-                          ),
-                          title: Text(result.domain,
-                              style: const TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.black,
-                              )),
-                          // const SizedBox(height: 8.0),
-                          subtitle: Text(result.username,
-                              style: const TextStyle(
-                                  fontSize: 12.0, color: Colors.black)))
-                    ]),
-              )),
-        );
-      },
+      itemCount: matches.length,
+      itemBuilder: (context, index) => _buildAccountTile(context, matches[index]),
     );
   }
 }
@@ -167,133 +107,158 @@ class AccountsList extends StatefulWidget {
 
 class _AccountsListState extends State<AccountsList> {
   List<Account> accounts = DBHelper().fetchAllAccounts();
+  bool ascendingSort = false;
 
-  void precacheImages(BuildContext context) {
-    precacheImage(const AssetImage('assets/images/amazon-listicon.png'),context);
-    precacheImage(const AssetImage('assets/images/facebook-listicon.png'),context);
-    precacheImage(const AssetImage('assets/images/twitter-listicon.png'),context);
-    precacheImage(const AssetImage('assets/images/sbi-listicon.png'),context);
-    precacheImage(const AssetImage('assets/images/instagram-listicon.png'),context);
-    precacheImage(const AssetImage('assets/images/linkedin-listicon.png'),context);
-    precacheImage(const AssetImage('assets/images/eduserver-listicon.png'),context);
-    precacheImage(const AssetImage('assets/images/hdfc-listicon.png'),context);
-    precacheImage(const AssetImage('assets/images/icici-listicon.png'),context);
-    precacheImage(const AssetImage('assets/images/aternos-listicon.png'),context);
-    precacheImage(const AssetImage('assets/images/default-listicon.png'),context);
+  void _precacheImages(BuildContext context) {
+    for (final name in [
+      'amazon-listicon.png',
+      'facebook-listicon.png',
+      'twitter-listicon.png',
+      'sbi-listicon.png',
+      'instagram-listicon.png',
+      'linkedin-listicon.png',
+      'eduserver-listicon.png',
+      'hdfc-listicon.png',
+      'icici-listicon.png',
+      'aternos-listicon.png',
+      'default-listicon.png',
+      'google-listicon.png',
+    ]) {
+      precacheImage(AssetImage('assets/images/$name'), context);
+    }
   }
 
-  Widget accountTemplate(account) {
+  Widget _accountTile(BuildContext context, Account account) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Container(
       margin: const EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 0),
       child: Card(
-          elevation: 3,
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(
-              color: Color.fromRGBO(103, 80, 164, 0.05),
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        color: colorScheme.surfaceVariant,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(15.0),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AccountDetailsPage(account: account),
+              ),
+            ).then((_) => setState(() {
+              accounts = DBHelper().fetchAllAccounts();
+            }));
+          },
+          child: ListTile(
+            leading: Image(
+              image: AssetImage('assets/images/${account.icon}'),
+              width: 40,
+              height: 40,
             ),
-            borderRadius: BorderRadius.circular(15.0), //<-- SEE HERE
+            title: Text(
+              account.domain,
+              style: TextStyle(
+                fontSize: 16.0,
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ),
+            subtitle: Text(
+              account.username,
+              style: TextStyle(
+                fontSize: 12.0,
+                color: colorScheme.onSurfaceVariant.withOpacity(0.7),
+              ),
+            ),
+            trailing: Icon(
+              Icons.chevron_right,
+              color: colorScheme.onSurfaceVariant.withOpacity(0.5),
+            ),
           ),
-          // margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
-          child: TextButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          AccountDetailsPage(account:account)))
-                  .then((_) => setState(() {accounts = DBHelper().fetchAllAccounts();}));
-            },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                  const Color.fromRGBO(103, 80, 164, 0.05)),
-              //   // shadowColor: MaterialStateProperty.all(
-              //     const Color.fromRGBO(255, 255, 255, 1)),
-            ),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  ListTile(
-                      leading: Image(
-                        image: AssetImage('assets/images/${account.icon}'),
-                      ),
-                      title: Text(account.domain,
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.black,
-                          )),
-                      // const SizedBox(height: 8.0),
-                      subtitle: Text(account.username,
-                          style: const TextStyle(
-                              fontSize: 12.0, color: Colors.black)))
-                ]),
-          )),
+        ),
+      ),
     );
   }
 
-  bool click = false;
-  bool ascendingSort = false;
-
   @override
   Widget build(BuildContext context) {
-    precacheImages(context);
+    final colorScheme = Theme.of(context).colorScheme;
+    _precacheImages(context);
     return Scaffold(
-        backgroundColor: const Color.fromRGBO(255, 251, 250, 1),
-        appBar: AppBar(
-          title: const Text(
-            'Accounts',
-            style: TextStyle(color: Colors.black),
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(
-                Icons.search,
-                color: Colors.black,
-              ),
-              onPressed: () {
-            showSearch(
-            context: context,
-            // delegate to customize the search bar
-            delegate: CustomSearchDelegate(accounts));
+      backgroundColor: colorScheme.surface,
+      appBar: AppBar(
+        title: const Text('Accounts'),
+        centerTitle: true,
+        backgroundColor: colorScheme.primaryContainer,
+        foregroundColor: colorScheme.onPrimaryContainer,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: CustomSearchDelegate(accounts),
+              );
             },
+          ),
+          IconButton(
+            icon: Icon(
+              ascendingSort ? Icons.sort_by_alpha : Icons.sort_by_alpha_outlined,
             ),
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  ascendingSort = !(ascendingSort);
-                  if(ascendingSort) {
-                    accounts.sort((a, b) {
-                      if(a.domain.toLowerCase() == b.domain.toLowerCase()) {
-                        return a.username.toLowerCase().compareTo(b.username.toLowerCase());
-                      } else {
-                        return a.domain.toLowerCase().compareTo(b.domain.toLowerCase());
-                      }
-                    });
-                  } else {
-                    accounts.sort((a, b) {
-                      if(a.domain.toLowerCase() == b.domain.toLowerCase()) {
-                        return b.username.toLowerCase().compareTo(a.username.toLowerCase());
-                      } else {
-                        return b.domain.toLowerCase().compareTo(a.domain.toLowerCase());
-                      }
-                    });
-                  }
+            onPressed: () {
+              setState(() {
+                ascendingSort = !ascendingSort;
+                accounts.sort((a, b) {
+                  final domainCmp = ascendingSort
+                      ? a.domain.toLowerCase().compareTo(b.domain.toLowerCase())
+                      : b.domain.toLowerCase().compareTo(a.domain.toLowerCase());
+                  if (domainCmp != 0) return domainCmp;
+                  return ascendingSort
+                      ? a.username.toLowerCase().compareTo(b.username.toLowerCase())
+                      : b.username.toLowerCase().compareTo(a.username.toLowerCase());
                 });
-              },
-              icon: const Icon(
-                  Icons.sort_by_alpha,
-                  color: Colors.black),
+              });
+            },
+          ),
+        ],
+      ),
+      body: accounts.isEmpty
+          ? Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.lock_outline,
+              size: 64,
+              color: colorScheme.onSurface.withOpacity(0.3),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'No accounts yet',
+              style: TextStyle(
+                fontSize: 16,
+                color: colorScheme.onSurface.withOpacity(0.5),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Tap "Generate new password" on the home screen\nto add your first account.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12,
+                color: colorScheme.onSurface.withOpacity(0.4),
+              ),
             ),
           ],
-          centerTitle: true,
-          backgroundColor: const Color.fromRGBO(231, 224, 236, 1),
-          foregroundColor: const Color.fromRGBO(0, 0, 0, 1),
         ),
-        body: ListView.builder(
-          shrinkWrap: true,
-          itemCount: accounts.length,
-          itemBuilder: (BuildContext context, int idx) {
-              return accountTemplate(
-                  accounts[idx]);
-          },
-        ));
-}}
+      )
+          : ListView.builder(
+        padding: const EdgeInsets.only(bottom: 16),
+        itemCount: accounts.length,
+        itemBuilder: (BuildContext context, int idx) {
+          return _accountTile(context, accounts[idx]);
+        },
+      ),
+    );
+  }
+}

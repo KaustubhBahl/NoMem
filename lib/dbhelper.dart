@@ -3,13 +3,11 @@ import 'package:hive/hive.dart';
 import 'package:nomem/model/account.dart';
 
 class DBHelper {
-  // fetches the box (table) of accounts
   static Box<Account> getAccountBox() => Hive.box<Account>('accounts');
 
   List<Account> fetchAllAccounts() => getAccountBox().values.toList();
 
   bool createAccount(String domain, String username, int length, int version) {
-    // check if account is present
     List<Account> accounts = fetchAllAccounts();
     for (var account in accounts) {
       if (account.domain == domain && account.username == username) {
@@ -42,14 +40,13 @@ class DBHelper {
       icon = 'default-listicon.png';
     }
 
-    // if no such account present, insert into the box with the key being domain+username
-    final account = Account() // create the required account record
+    final account = Account()
       ..domain = domain
       ..username = username
       ..length = length
       ..version = version
       ..icon = icon;
-    final accountBox = getAccountBox(); // get the box
+    final accountBox = getAccountBox();
     accountBox.add(account);
     return true;
   }

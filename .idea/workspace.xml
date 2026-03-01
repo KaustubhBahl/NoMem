@@ -5,35 +5,18 @@
       <config />
     </shared>
   </component>
-  <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
-  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b2270c96-b9ce-42ae-9071-3149db7dcc15" name="Changes" comment="add export option on create account without user key">
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/pages/create_account.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pages/create_account.dart" afterDir="false" />
-    </list>
+    <list default="true" id="d11a8c44-9f7c-422c-8698-c2d45be7069f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExternalProjectsManager">
-    <system id="GRADLE">
-      <state>
-        <task path="$PROJECT_DIR$">
-          <activation />
-        </task>
-        <projects_view />
-      </state>
-    </system>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -42,425 +25,42 @@
       </list>
     </option>
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="e910a4565cad8a5f2cc5d00af7d243feed30dc52" />
-      </map>
-    </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RESET_MODE" value="HARD" />
-  </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
-  </component>
-  <component name="ProjectId" id="2NbLjAVKirbP6Myzzc3cK0YtgNW" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="3AJXl4wABy5ZzOg7yuQb45Ql38p" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
-    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="cidr.known.project.marker" value="true" />
-    <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="terminal" />
-    <property name="show.migrate.to.gradle.popup" value="false" />
-  </component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\HP\StudioProjects\NoMem\lib" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Flutter.main.dart">
-    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
-      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
-      <method v="2" />
-    </configuration>
-    <configuration name="C:/Users/HP/StudioProjects/NoMem" type="GradleRunConfiguration" factoryName="Gradle">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list />
-        </option>
-        <option name="vmOptions" value="" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Gradle.C:/Users/HP/StudioProjects/NoMem" />
-        <item itemvalue="Gradle.C:/Users/HP/StudioProjects/NoMem" />
-        <item itemvalue="Gradle.C:/Users/HP/StudioProjects/NoMem" />
-        <item itemvalue="Gradle.C:/Users/HP/StudioProjects/NoMem" />
-      </list>
-    </recent_temporary>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;io.flutter.project.isFirstOpen&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/StudioProjects/nomem&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  }
+}</component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b2270c96-b9ce-42ae-9071-3149db7dcc15" name="Changes" comment="" />
-      <created>1679927990533</created>
+      <changelist id="d11a8c44-9f7c-422c-8698-c2d45be7069f" name="Changes" comment="" />
+      <created>1772311909016</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1679927990533</updated>
+      <updated>1772311909016</updated>
     </task>
-    <task id="LOCAL-00001" summary="First commit">
-      <created>1679986036517</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1679986036517</updated>
-    </task>
-    <task id="LOCAL-00002" summary="add logo, bottom navigation bar and change theme">
-      <created>1680068655697</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1680068655697</updated>
-    </task>
-    <task id="LOCAL-00003" summary="add Navigation between screens">
-      <created>1680528212656</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1680528212657</updated>
-    </task>
-    <task id="LOCAL-00004" summary="fix theme and add icons images">
-      <created>1680532445363</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1680532445363</updated>
-    </task>
-    <task id="LOCAL-00005" summary="add create password and view password">
-      <created>1680554237161</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1680554237162</updated>
-    </task>
-    <task id="LOCAL-00006" summary="fixing git repo">
-      <created>1680555032059</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1680555032060</updated>
-    </task>
-    <task id="LOCAL-00007" summary="fixing git repo">
-      <created>1680555841608</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1680555841608</updated>
-    </task>
-    <task id="LOCAL-00008" summary="fixing git repo">
-      <created>1680556259956</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1680556259956</updated>
-    </task>
-    <task id="LOCAL-00009" summary="add update password, delete password, fetching account list">
-      <created>1680628732100</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1680628732100</updated>
-    </task>
-    <task id="LOCAL-00010" summary="validate form for create_account">
-      <created>1680641603315</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1680641603315</updated>
-    </task>
-    <task id="LOCAL-00011" summary="change in some flutter internal files">
-      <created>1680666796644</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1680666796644</updated>
-    </task>
-    <task id="LOCAL-00012" summary="change in some flutter internal files">
-      <created>1680667236637</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1680667236637</updated>
-    </task>
-    <task id="LOCAL-00013" summary="merging branches">
-      <created>1680668291096</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1680668291096</updated>
-    </task>
-    <task id="LOCAL-00014" summary="implement search and sort">
-      <created>1680696226384</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1680696226384</updated>
-    </task>
-    <task id="LOCAL-00015" summary="change create_account backend to Hive">
-      <created>1680705951902</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1680705951902</updated>
-    </task>
-    <task id="LOCAL-00016" summary="change accountsList, accounts_details backend to Hive">
-      <created>1680753084047</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1680753084048</updated>
-    </task>
-    <task id="LOCAL-00017" summary="fix minor bug">
-      <created>1680753124555</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1680753124555</updated>
-    </task>
-    <task id="LOCAL-00018" summary="fix minor bug">
-      <created>1680755839012</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1680755839012</updated>
-    </task>
-    <task id="LOCAL-00019" summary="fix minor bug">
-      <created>1680761519110</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1680761519111</updated>
-    </task>
-    <task id="LOCAL-00020" summary="fix minor bug">
-      <created>1680761530677</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1680761530678</updated>
-    </task>
-    <task id="LOCAL-00021" summary="add sort">
-      <created>1680763782912</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1680763782912</updated>
-    </task>
-    <task id="LOCAL-00022" summary="merging frontend and backend changes">
-      <created>1680766224368</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1680766224368</updated>
-    </task>
-    <task id="LOCAL-00023" summary="remove Scaffold Messenger on copying password">
-      <created>1681003889737</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1681003889737</updated>
-    </task>
-    <task id="LOCAL-00024" summary="update constraints on password length">
-      <created>1681006763225</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1681006763225</updated>
-    </task>
-    <task id="LOCAL-00025" summary="add export from home screen">
-      <created>1681036015988</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1681036015988</updated>
-    </task>
-    <task id="LOCAL-00026" summary="add import from home screen">
-      <created>1681043653413</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1681043653414</updated>
-    </task>
-    <task id="LOCAL-00027" summary="fix import">
-      <created>1681049964336</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1681049964336</updated>
-    </task>
-    <task id="LOCAL-00028" summary="Update README.md">
-      <created>1681055189806</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1681055189808</updated>
-    </task>
-    <task id="LOCAL-00029" summary="minor changes">
-      <created>1681057671669</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1681057671669</updated>
-    </task>
-    <task id="LOCAL-00030" summary="implement applock">
-      <created>1681078107509</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1681078107509</updated>
-    </task>
-    <task id="LOCAL-00031" summary="change export">
-      <created>1681114864873</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1681114864873</updated>
-    </task>
-    <task id="LOCAL-00032" summary="separate Toast Messages">
-      <created>1681125049879</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1681125049879</updated>
-    </task>
-    <task id="LOCAL-00033" summary="separate password dialogs">
-      <created>1681125875820</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1681125875820</updated>
-    </task>
-    <task id="LOCAL-00034" summary="add export confirmation dialogs">
-      <created>1681128829187</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1681128829187</updated>
-    </task>
-    <task id="LOCAL-00035" summary="minor change">
-      <created>1681128903409</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1681128903409</updated>
-    </task>
-    <task id="LOCAL-00036" summary="fix delete account">
-      <created>1681161962596</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1681161962596</updated>
-    </task>
-    <task id="LOCAL-00037" summary="Final commit before final eval">
-      <created>1681181284724</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1681181284724</updated>
-    </task>
-    <task id="LOCAL-00038" summary="add export option on create account without user key">
-      <created>1682610733072</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1682610733072</updated>
-    </task>
-    <option name="localTasksCounter" value="39" />
     <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="main" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="RECENT_FILTERS">
-      <map>
-        <entry key="Branch">
-          <value>
-            <list>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="main" />
-                </option>
-              </RecentGroup>
-            </list>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="validate form for create_account" />
-    <MESSAGE value="change in some flutter internal files" />
-    <MESSAGE value="merging branches" />
-    <MESSAGE value="implement search and sort" />
-    <MESSAGE value="change create_account backend to Hive" />
-    <MESSAGE value="change accountsList, accounts_details backend to Hive" />
-    <MESSAGE value="fix minor bug" />
-    <MESSAGE value="add sort" />
-    <MESSAGE value="merging frontend and backend changes" />
-    <MESSAGE value="remove Scaffold Messenger on copying password" />
-    <MESSAGE value="update constraints on password length" />
-    <MESSAGE value="add export from home screen" />
-    <MESSAGE value="add import from home screen" />
-    <MESSAGE value="fix import" />
-    <MESSAGE value="Update README.md" />
-    <MESSAGE value="minor changes" />
-    <MESSAGE value="implement applock" />
-    <MESSAGE value="change export" />
-    <MESSAGE value="separate Toast Messages" />
-    <MESSAGE value="separate password dialogs" />
-    <MESSAGE value="add export confirmation dialogs" />
-    <MESSAGE value="minor change" />
-    <MESSAGE value="fix delete account" />
-    <MESSAGE value="Final commit before final eval" />
-    <MESSAGE value="add export option on create account without user key" />
-    <option name="LAST_COMMIT_MESSAGE" value="add export option on create account without user key" />
   </component>
 </project>

@@ -13,129 +13,125 @@ class MyAppLock extends StatefulWidget {
 
 class _MyAppLockState extends State<MyAppLock> {
   final LocalAuthentication auth = LocalAuthentication();
-  _SupportState _supportState = _SupportState.unknown;
-  bool? _canCheckBiometrics;
-  List<BiometricType>? _availableBiometrics;
-  String _authorized = 'Not Authorized';
   bool _isAuthenticating = false;
+  bool _authFailed = false;
 
   @override
   void initState() {
     super.initState();
-    auth.isDeviceSupported().then(
-          (bool isSupported) =>
-          setState(() =>
-          _supportState = isSupported
-              ? _SupportState.supported
-              : _SupportState.unsupported),
-    );
-    _authenticate();
-  }
-
-  Future<void> _checkBiometrics() async {
-    late bool canCheckBiometrics;
-    try {
-      canCheckBiometrics = await auth.canCheckBiometrics;
-    } on PlatformException {
-      canCheckBiometrics = false;
-    }
-    if (!mounted) {
-      return;
-    }
-
-    setState(() {
-      _canCheckBiometrics = canCheckBiometrics;
-    });
-  }
-
-  Future<void> _getAvailableBiometrics() async {
-    late List<BiometricType> availableBiometrics;
-    try {
-      availableBiometrics = await auth.getAvailableBiometrics();
-    } on PlatformException {
-      availableBiometrics = <BiometricType>[];
-    }
-    if (!mounted) {
-      return;
-    }
-
-    setState(() {
-      _availableBiometrics = availableBiometrics;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _authenticate();
     });
   }
 
   Future<void> _authenticate() async {
+    setState(() {
+      _isAuthenticating = true;
+      _authFailed = false;
+    });
+
     bool authenticated = false;
     try {
-      setState(() {
-        _isAuthenticating = true;
-        _authorized = 'Authenticating';
-      });
+      final bool canAuthenticate = await auth.canCheckBiometrics ||
+          await auth.isDeviceSupported();
+
+      if (!canAuthenticate) {
+        debugPrint('NOMEM: Device does not support authentication');
+        if (mounted) {
+          setState(() {
+            _isAuthenticating = false;
+            _authFailed = true;
+          });
+        }
+        return;
+      }
+
       authenticated = await auth.authenticate(
-        localizedReason: 'Unlock the app to proceed',
+        localizedReason: 'Unlock NoMem to proceed',
         options: const AuthenticationOptions(
           stickyAuth: true,
+          biometricOnly: false,
         ),
       );
-      setState(() {
-        _isAuthenticating = false;
-      });
     } on PlatformException catch (e) {
-      setState(() {
-        _isAuthenticating = false;
-        _authorized = 'Error - ${e.message}';
-      });
-      return;
-    }
-    if (!mounted) {
-      return;
+      debugPrint('NOMEM: Auth error code: ${e.code}');
+      debugPrint('NOMEM: Auth error message: ${e.message}');
+      authenticated = false;
     }
 
-    setState(() => _authorized = authenticated ? 'Authorized' : 'Not Authorized');
-    if(_authorized == 'Authorized') {
-      AppLock.of(context)!.didUnlock();
+    if (!mounted) return;
+
+    setState(() {
+      _isAuthenticating = false;
+      _authFailed = !authenticated;
+    });
+
+    if (authenticated) {
+      AppLock.of(context)?.didUnlock();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          body: _isAuthenticating ? const SizedBox.shrink() : Theme(
-            data: ThemeData(
-              dialogTheme: DialogTheme(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
+      body: Center(
+        child: _isAuthenticating
+            ? const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 24),
+            Text(
+              'Authenticating...',
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        )
+            : Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.lock_outline,
+              size: 72,
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'NoMem is locked',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            child: AlertDialog(
-              title: const Text('Authentication Required'),
-              content: const Text(
-                'Please unlock the app to proceed. Set up app lock first if required.',
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () async {
-                    await _authenticate();
-                  },
-                  child: const Text('Unlock'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    SystemNavigator.pop();
-                  },
-                  child: const Text('Exit'),
-                ),
-              ],
+            const SizedBox(height: 8),
+            const Text(
+              'Authenticate to continue',
+              style: TextStyle(fontSize: 14),
             ),
-          )
-      );
+            if (_authFailed) ...[
+              const SizedBox(height: 12),
+              const Text(
+                'Authentication failed. Please try again.',
+                style: TextStyle(color: Colors.red, fontSize: 13),
+              ),
+            ],
+            const SizedBox(height: 32),
+            ElevatedButton.icon(
+              onPressed: _authenticate,
+              icon: const Icon(Icons.fingerprint),
+              label: const Text('Unlock'),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 32, vertical: 14),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: () => SystemNavigator.pop(),
+              child: const Text('Exit App'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
-}
-
-enum _SupportState {
-  unknown,
-  supported,
-  unsupported,
 }
