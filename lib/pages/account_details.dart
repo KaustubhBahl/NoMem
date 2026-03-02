@@ -21,19 +21,62 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
   bool _obscureText = true;
 
   @override
+  void dispose() {
+    userKeyController.dispose();
+    super.dispose();
+  }
+
+  void _showExportDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Export recommended'),
+          content: const Text(
+            'Account data has changed. Would you like to export your accounts?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                var msg = '';
+                Navigator.of(context).pop();
+                if (await Export().export()) {
+                  msg = 'Data file exported to Download folder successfully';
+                } else {
+                  msg = "Data wasn't exported as Download folder couldn't be opened";
+                }
+                Fluttertoast.showToast(
+                  msg: msg,
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.black,
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                );
+              },
+              child: const Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('No'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(255, 251, 250, 1),
+      backgroundColor: colorScheme.surface,
       appBar: AppBar(
-        title: const Text(
-          "Account Details",
-          // style: TextStyle(textAlign: TextAlign.center),
-          // style: TextStyle(color: Colors.black),
-        ),
+        title: const Text('Account Details'),
         centerTitle: true,
-        backgroundColor: const Color.fromRGBO(232, 222, 248, 1),
-        foregroundColor: const Color.fromRGBO(0, 0, 0, 1),
-        // shadowColor: const Color.fromRGBO(255, 255, 255, 1),
+        backgroundColor: colorScheme.primaryContainer,
+        foregroundColor: colorScheme.onPrimaryContainer,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -44,6 +87,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               children: [
                 Expanded(
                   child: _buildCard(
+                    context: context,
                     title: 'Domain name',
                     value: widget.account.domain,
                   ),
@@ -51,6 +95,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                 const SizedBox(width: 16),
                 Expanded(
                   child: _buildCard(
+                    context: context,
                     title: 'Username',
                     value: widget.account.username,
                   ),
@@ -62,6 +107,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               children: [
                 Expanded(
                   child: _buildCard(
+                    context: context,
                     title: 'Password Length',
                     value: widget.account.length.toString(),
                   ),
@@ -69,46 +115,46 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                 const SizedBox(width: 16),
                 Expanded(
                   child: _buildCard(
+                    context: context,
                     title: 'Version Number',
-                    value: (widget.account.version).toString(),
+                    value: widget.account.version.toString(),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 112),
-            Center(
-              child: SizedBox(
-                width: 300,
-                child: TextField(
-                  obscureText: _obscureText,
-                  controller: userKeyController,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: 'User Key',
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    errorText: validateUserKey ? 'Please enter the user key' : null,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscureText ? Icons.visibility_off : Icons.visibility,
-                        color: Colors.grey,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
-                      },
+            const SizedBox(height: 48),
+            SizedBox(
+              width: 300,
+              child: TextField(
+                obscureText: _obscureText,
+                controller: userKeyController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  labelText: 'User Key',
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  errorText: validateUserKey ? 'Please enter the user key' : null,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureText ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.grey,
                     ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            const Text(
-              'Your secret personal key that is used to \n'
-              'generate all your passwords',
+            const SizedBox(height: 8),
+            Text(
+              'Your secret personal key that is used to\ngenerate all your passwords',
               style: TextStyle(
                 fontSize: 12,
-                color: Color(0xFF938F99),
+                color: colorScheme.onSurface.withOpacity(0.5),
               ),
               textAlign: TextAlign.center,
             ),
@@ -117,78 +163,78 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               width: 175.0,
               child: ElevatedButton(
                 onPressed: () {
-                  if(userKeyController.text.trim().isEmpty) {
-                   setState(() {validateUserKey = true;});
-                   return;
+                  if (userKeyController.text.trim().isEmpty) {
+                    setState(() {
+                      validateUserKey = true;
+                    });
+                    return;
                   }
+                  setState(() {
+                    validateUserKey = false;
+                  });
                   final password = PasswordGen(
-                          domain: widget.account.domain,
-                          username: widget.account.username,
-                          length: widget.account.length.toString(),
-                          version: widget.account.version.toString(),
-                          userKey: userKeyController.text.trim())
-                      .generatePassword();
+                    domain: widget.account.domain,
+                    username: widget.account.username,
+                    length: widget.account.length.toString(),
+                    version: widget.account.version.toString(),
+                    userKey: userKeyController.text.trim(),
+                  ).generatePassword();
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return Theme(
-                        data: ThemeData(
-                          dialogTheme: DialogTheme(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
-                          ),
+                      return AlertDialog(
+                        title: const Text(
+                          'Tap the icon to copy',
+                          textAlign: TextAlign.center,
                         ),
-                        child: AlertDialog(
-                          title: const Text(
-                            'Tap the icon to copy',
-                            textAlign: TextAlign.center,
-                          ),
-                          content: Container(
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                              password,
-                                              style: TextStyle(
-                                                fontFamily: 'Inconsolata', fontSize:20, fontWeight: FontWeight.bold,
-                                              ),
+                        content: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          password,
+                                          style: const TextStyle(
+                                            fontFamily: 'Inconsolata',
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),
-                                      IconButton(
-                                        onPressed: () {
-                                          Clipboard.setData(ClipboardData(text: password));
-                                        },
-                                        icon: const Icon(Icons.copy),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        Clipboard.setData(
+                                            ClipboardData(text: password));
+                                        Fluttertoast.showToast(
+                                          msg: 'Password copied to clipboard',
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                        );
+                                      },
+                                      icon: const Icon(Icons.copy),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 16),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-
-                                  },
-                                  child: const Text('Close'),
-                                ),
-                              ],
-                            ),
+                              ),
+                              const SizedBox(height: 16),
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text('Close'),
+                              ),
+                            ],
                           ),
                         ),
                       );
@@ -196,21 +242,16 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: const Color.fromRGBO(232, 222, 248, 1),
+                  backgroundColor: colorScheme.primaryContainer,
+                  foregroundColor: colorScheme.onPrimaryContainer,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(22),
                   ),
                 ),
-                child: const Text(
-                  'View Password',
-                  style: TextStyle(
-                    color: Color(0xFF4A4458),
-                  ),
-                ),
+                child: const Text('View Password'),
               ),
             ),
-            // Spacer(),
-            const SizedBox(height: 80),
+            const SizedBox(height: 48),
             Row(
               children: [
                 Expanded(
@@ -223,111 +264,53 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return Theme(
-                            data: ThemeData(
-                              dialogTheme: DialogTheme(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
-                              ),
+                          return AlertDialog(
+                            title: const Text('Confirmation'),
+                            content: const Text(
+                              'Are you sure you want to update the password? The version number will increase by 1.',
                             ),
-                            child: AlertDialog(
-                              title: const Text('Confirmation'),
-                              content: const Text(
-                                'Are you sure you want to update the password?',
+                            actions: [
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                  DBHelper().updatePassword(
+                                    widget.account.domain,
+                                    widget.account.username,
+                                  );
+                                  setState(() {});
+                                  Fluttertoast.showToast(
+                                    msg: 'The password has been updated successfully',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.black,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0,
+                                  );
+                                  _showExportDialog(context);
+                                },
+                                child: const Text('Yes'),
                               ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () async {
-                                    Navigator.of(context).pop();
-                                    DBHelper().updatePassword(
-                                      widget.account.domain,
-                                      widget.account.username);
-                                    setState(() {});
-                                    Fluttertoast.showToast(
-                                      msg: "The password has been updated successfully",
-                                      toastLength: Toast.LENGTH_LONG,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.black,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0,
-                                    );
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Theme(
-                                          data: ThemeData(
-                                            dialogTheme: DialogTheme(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(20),
-                                              ),
-                                              backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
-                                            ),
-                                          ),
-                                          child: AlertDialog(
-                                            title: const Text('Export recommended'),
-                                            content: const Text(
-                                              'An account\'s version has been updated. Do you want to export the accounts onto your system?',
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () async {
-                                                  var msg = '';
-                                                  Navigator.of(context).pop();
-                                                  if (await Export().export()) {
-                                                    msg = 'Data file exported to Download folder successfully';
-                                                  } else {
-                                                    msg = "Data wasn't exported as Download folder couldn't be opened";
-                                                  }
-                                                  Fluttertoast.
-                                                  showToast(
-                                                    msg: msg,
-                                                    toastLength: Toast.LENGTH_LONG,
-                                                    gravity: ToastGravity.BOTTOM,
-                                                    timeInSecForIosWeb: 1,
-                                                    backgroundColor: Colors.black,
-                                                    textColor: Colors.white,
-                                                    fontSize: 16.0,
-                                                  );
-                                                },
-                                                child: const Text('Yes'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text('No'),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: const Text('Yes'),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('No'),
-                                ),
-                              ],
-                            ),
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text('No'),
+                              ),
+                            ],
                           );
-                         },
+                        },
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: const Color(0xFF3B3B3B),
+                      backgroundColor: colorScheme.secondaryContainer,
+                      foregroundColor: colorScheme.onSecondaryContainer,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
                       ),
                     ),
-                    child: const Text('Update Password',
-                        style: TextStyle(fontSize: 12)),
+                    child: const Text(
+                      'Update Password',
+                      style: TextStyle(fontSize: 12),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -337,120 +320,72 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                       showDialog(
                         context: context,
                         builder: (BuildContext dialogContext) {
-                          return Theme(
-                            data: ThemeData(
-                              dialogTheme: DialogTheme(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
-                              ),
+                          return AlertDialog(
+                            title: const Text('Confirmation'),
+                            content: const Text(
+                              'Are you sure you want to delete this account?',
                             ),
-                            child: AlertDialog(
-                              title: const Text('Confirmation'),
-                              content: const Text(
-                                'Are you sure you want to delete the account?',
+                            actions: [
+                              TextButton(
+                                onPressed: () async {
+                                  Navigator.of(dialogContext).pop();
+                                  Navigator.of(context).pop();
+                                  DBHelper().deleteAccount(
+                                    widget.account.domain,
+                                    widget.account.username,
+                                  );
+                                  Fluttertoast.showToast(
+                                    msg: 'The account has been deleted successfully',
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.black,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0,
+                                  );
+                                  _showExportDialog(context);
+                                },
+                                child: const Text('Yes'),
                               ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () async {
-                                    Navigator.of(dialogContext).pop();
-                                    Navigator.of(context).pop();
-                                    DBHelper().deleteAccount(
-                                        widget.account.domain,
-                                        widget.account.username);
-                                    Fluttertoast.showToast(
-                                        msg:
-                                        "The account has been deleted successfully",
-                                        toastLength: Toast.LENGTH_LONG,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.black,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0
-                                    );
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) =>
-                                          AlertDialog(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(20),
-                                            ),
-                                            backgroundColor: const Color.fromRGBO(255, 255, 245, 1),
-                                            title: const Text('Export recommended'),
-                                            content: const Text(
-                                              'An account has been deleted. Would you like to export the accounts onto your system?',
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () async {
-                                                  Navigator.of(dialogContext).pop();
-                                                  var msg = '';
-                                                  if (await Export().export()) {
-                                                    msg = 'Data file exported to Download folder successfully';
-                                                  } else {
-                                                    msg = "Data wasn't exported as Download folder couldn't be opened";
-                                                  }
-                                                  Fluttertoast.
-                                                  showToast(
-                                                    msg: msg,
-                                                    toastLength: Toast.LENGTH_LONG,
-                                                    gravity: ToastGravity.BOTTOM,
-                                                    timeInSecForIosWeb: 1,
-                                                    backgroundColor: Colors.black,
-                                                    textColor: Colors.white,
-                                                    fontSize: 16.0,
-                                                  );
-                                                },
-                                                child: const Text('Yes'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(dialogContext).pop();
-                                                },
-                                                child: const Text('No'),
-                                              ),
-                                            ],
-                                          ));
-                                  },
-                                  child: const Text('Yes'),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(dialogContext).pop();
-                                  },
-                                  child: const Text('No'),
-                                ),
-                              ],
-                            ),
+                              TextButton(
+                                onPressed: () => Navigator.of(dialogContext).pop(),
+                                child: const Text('No'),
+                              ),
+                            ],
                           );
                         },
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: const Color(0xFFDC362E),
+                      backgroundColor: colorScheme.errorContainer,
+                      foregroundColor: colorScheme.onErrorContainer,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(22),
                       ),
                     ),
-                    child: const Text('Delete Account',
-                        style: TextStyle(fontSize: 12)),
+                    child: const Text(
+                      'Delete Account',
+                      style: TextStyle(fontSize: 12),
+                    ),
                   ),
                 ),
               ],
             ),
-            // SizedBox(height: 40),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildCard({required String title, required String value}) {
+  Widget _buildCard({
+    required BuildContext context,
+    required String title,
+    required String value,
+  }) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Card(
-      elevation: 4,
-      // shadowColor: Color.fromRGBO(255, 255, 255, 1),
-      color: const Color.fromRGBO(232, 222, 248, 1),
+      elevation: 2,
+      color: colorScheme.primaryContainer,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -461,16 +396,18 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
           children: [
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 12,
+                color: colorScheme.onPrimaryContainer,
               ),
             ),
             const SizedBox(height: 8),
             Text(
               value,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
+                color: colorScheme.onPrimaryContainer,
               ),
             ),
           ],

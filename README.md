@@ -1,3 +1,17 @@
-# NoMem
+# nomem
 
-NoMem is a user-friendly password manager Android application whose central idea is that users only remember one user key that generates all their strong and secure passwords. NoMem doesn't store the passwords (or the user key) at all, and all the other details are stored locally, thus allowing the app not to require internet. Updating passwords is also hassle-free and can be done with a single click. To add another layer of security, the app enforces an app lock, while the local backup features allow data recovery in case of device loss. Hence, NoMem is the one-stop solution for secure password management.
+A new Flutter project.
+
+## Getting Started
+
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
+- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
