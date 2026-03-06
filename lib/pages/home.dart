@@ -110,7 +110,7 @@ class Home extends StatelessWidget {
         height: 70,
         child: Center(
           child: Text(
-            'MADE BY G5',
+            'The 307 Initiative',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: FontWeight.w600,
